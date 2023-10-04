@@ -15,7 +15,7 @@ const Nav = () => {
   // TODO
   
   return (
-    <div className='nav'>
+    <div className='nav rounded-full w-full fixed z-10'>
       <div className='nav-center'>
         <div className='nav-header'>
           <Link to='/'>
