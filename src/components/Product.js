@@ -23,6 +23,7 @@ const Product = ({ image, name, price, id, stars, company }) => {
   )
 }
 const Wrapper = styled.article`
+  width: 275px;
   .container {
     position: relative;
     height: fit-content;
@@ -54,13 +55,14 @@ const Wrapper = styled.article`
   }
   .container:hover .stars{
     display: none;
+    transition: var(--transition);
   }
   .company{
     display: none;
-    transition: var(--transition)
   }
   .container:hover .company{
     display: block
+    transition: var(--transition);
   }
   footer {
     margin-top: 0.5rem;
