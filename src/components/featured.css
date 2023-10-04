@@ -19,9 +19,4 @@
   margin: 0 auto;
   text-align: center;
 }
-@media (min-width: 576px) {
-  .featured {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
 

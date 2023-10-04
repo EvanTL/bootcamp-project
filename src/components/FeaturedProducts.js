@@ -24,7 +24,7 @@ const FeaturedProducts = () => {
   return (
     <div className='section-featured mt-4'>
       <h2 className='text-[#071952] font-semibold text-center pt-3'>Featured Products</h2>
-      <div className='featured'>
+      <div className='featured grid-cols-2 md:grid-cols-3'>
       {featured_products && featured_products.map(item => {
         const {name, image, id, price, stars, company} = item
         return <Product key={id} name={name} image={image} id={id} price={price} stars={stars} company={company} />
