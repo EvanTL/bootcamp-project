@@ -13,18 +13,18 @@ const CartItem = ({ id, image, name, color, price, amount }) => {
   }
   return (
     <>
-    <div className='grid grid-cols-[300px_1fr_1fr_1fr_50px] mx-4 py-2' key={id}>
-    <div className='col-start-1 grid grid-cols-2'>
+    <div className='grid md:grid-cols-[300px_1fr_1fr_1fr_50px] mx-4 py-2' key={id}>
+    <div className='col-start-1 grid grid-cols-2 mb-3 md:mb-0'>
       <img src={image} alt='' className='h-24'/>
       <div className='self-center h-fit'>
         <h5>{name}</h5>
         <p>Color: <div style={{background: color}} className='w-[0.7rem] h-[0.7rem] inline-block rounded-full'/></p>
       </div>
     </div>
-    <p className='self-center text-center'>{formatPrice(price)}</p>
+    <p className='self-center text-center'><span className='md:hidden'>Price: </span>{formatPrice(price)}</p>
     <div className='m-auto'><AmountButtons increase={increase} decrease={decrease} amount={amount}/></div>
-    <p className='self-center text-center'>{formatPrice(amount * price)}</p>
-    <button className='rounded-lg text-white transition-[var(--transition)] self-center bg-[var(--clr-red-dark)] hover:bg-red-600'
+    <p className='self-center text-center mb-1 md:mb-0'><span className='md:hidden'>Subtotal: </span>{formatPrice(amount * price)}</p>
+    <button className='rounded-lg mx-auto text-white transition-[var(--transition)] self-center bg-[var(--clr-red-dark)] hover:bg-red-600'
     onClick={() => removeItem(id)}><FaTrash/></button>
     </div>
     <hr/>
