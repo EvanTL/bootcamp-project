@@ -1,13 +1,29 @@
 import React from 'react'
+import { FaFacebook, FaInstagram, FaTiktok, FaXTwitter } from 'react-icons/fa6'
 import styled from 'styled-components'
 const Footer = () => {
   return (
     <Container>
-      <h5>
-        &copy; 2015-{new Date().getFullYear()}
-        <span> Cek Toko Sebelah </span>
-      </h5>
-      <h5>All rights reserved</h5>
+      <div className='grid grid-cols-2 gap-96'>
+        <div className=''>
+          <h5>
+            &copy; 2015-{new Date().getFullYear()}
+            <span> Cek Toko Sebelah </span>
+            All rights reserved
+          </h5>
+        </div>
+        <div>
+          <div className='grid grid-cols-[125px_1fr]'>
+            <h5 className='w-fit inline'>Follow us on: </h5>
+            <div className='grid grid-cols-[30px_30px_30px_30px]'>
+              <FaXTwitter className='text-white text-xl my-auto'/>
+              <FaFacebook className='text-white text-xl my-auto'/>
+              <FaInstagram className='text-white text-xl my-auto'/>
+              <FaTiktok className='text-white text-xl my-auto'/>
+            </div>
+          </div>
+        </div>
+      </div>
     </Container>
   )
 }
