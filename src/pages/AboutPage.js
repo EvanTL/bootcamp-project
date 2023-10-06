@@ -5,8 +5,8 @@ import './aboutpage.css'
 
 const AboutPage = () => {
   return (
-    <main>
-      <PageHero title='about' />
+    <main className='mt-20'>
+      <PageHero title='about'/>
       <section className='grid grid-cols-2 mx-[200px] gap-6 my-[30px]'>
         <img src={toko} alt='nice desk' className='w-fit h-fit' />
         <article>
