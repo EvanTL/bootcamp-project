@@ -62,9 +62,9 @@ const SingleProductPage = () => {
     image,
   } = product;
   return (
-    <>
-    <PageHero title={name} product='products' />
-    <div className='pt-[3rem] mx-[174px] mb-8'>
+    <div className='mt-20'>
+    <PageHero title={name} product='products'/>
+    <div className='pt-[3rem] mx-[174px]'>
       <div className='product-center lg:grid lg:grid-cols-2 gap-5'>
         <section>
         <Link to='/products' className='w-fit float-left m-auto text-center bg-[#676767] text-white rounded-[var(--radius)]
@@ -86,7 +86,7 @@ const SingleProductPage = () => {
       </div>
       <ProductReviews reviews={reviews} loading={reviews_loading} error={reviews_error}/>
     </div>
-    </>
+    </div>
   );
 };
 
