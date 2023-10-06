@@ -7,7 +7,7 @@ const Product = ({ image, name, price, id, stars, company }) => {
   return (
     <Wrapper>
       <Link to={`/products/${id}`} className='link'>
-      <div className='container content-center'>
+      <div className='container content-center bg-slate-100'>
         <img src={image} alt={name} />
       <footer>
         <h5>{name}</h5>
@@ -27,7 +27,6 @@ const Wrapper = styled.article`
   .container {
     position: relative;
     height: fit-content;
-    background-color: #6499E9;
     border-radius: var(--radius);
   }
   img {
