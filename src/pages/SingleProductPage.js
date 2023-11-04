@@ -64,8 +64,8 @@ const SingleProductPage = () => {
   return (
     <div className='mt-20'>
     <PageHero title={name} product='products'/>
-    <div className='pt-[3rem] mx-[174px]'>
-      <div className='product-center lg:grid lg:grid-cols-2 gap-5'>
+    <div className='pt-[5rem] mx-[174px]'>
+      <div className='lg:grid lg:grid-cols-2 gap-5'>
         <section>
         <Link to='/products' className='w-fit float-left m-auto text-center bg-[#676767] text-white rounded-[var(--radius)]
         text-[0.875rem] px-3 py-[6px] mb-2 uppercase hover:opacity-50 transition-[var(--transition)]'>Back to Products</Link>
