@@ -3,6 +3,7 @@
     display: grid;
     gap: 3rem 1.5rem;
     margin: 4rem auto;
+    z-index: 0;
 }
 @media (min-width: 768px) {
     .products {
