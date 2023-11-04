@@ -15,6 +15,7 @@ import {
 
 import Login from './pages/Login'
 import SingleProductPage from './pages/SingleProductPage'
+import GetProducts from './components/getProductstest'
 import DeliveryAddress from './components/DeliveryAddress'
 import PaymentMethod from './components/PaymentMethod'
 import ReviewOrder from './components/ReviewOrder'
