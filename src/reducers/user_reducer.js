@@ -1,20 +1,29 @@
 
+
   
 
 const user_reducer = (state, action) => {
 
     if (action.type === 'USER_LOGIN_REQUEST') {
-        //TODO
+        return {...state, loading: true}
     }
 
     if (action.type === 'USER_LOGIN_SUCCESS') {
+        const newState = {
+            ...state,
+            userId: action.payload.userId,
+            token: action.payload.token,
+            loading: false,
+            error: ''
+        }
 
-        //TODO
+        localStorage.setItem('userInfo', JSON.stringify(newState))
+        return newState
     }
 
     if (action.type === 'USER_LOGIN_FAIL') {
         
-        //TODO
+        return {...state, loading: false, error: action.payload}
     }
 
 
