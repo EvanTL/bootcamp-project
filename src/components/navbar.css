@@ -62,15 +62,26 @@
     }
 
     .nav-links a {
-        color: var(--clr-grey-3);
         font-size: 1rem;
         text-transform: capitalize;
         letter-spacing: var(--spacing);
         padding: 0.5rem;
     }
 
-    .nav-links a:hover {
+    .nav-links .main, .nav-links #checkout{
+        color: var(--clr-grey-3);
+    }
+
+    .nav-links #logout{
+        color: var(--clr-red-dark)
+    }
+
+    .nav-links .main a:hover, .nav-links #checkout a:hover {
         border-bottom: 5px solid var(--clr-primary-7);
+    }
+
+    .nav-links #logout a:hover {
+        border-bottom: 5px solid var(--clr-primary-1);
     }
 
     .cart-btn-wrapper {
