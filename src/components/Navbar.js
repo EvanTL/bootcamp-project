@@ -29,19 +29,26 @@ const Nav = () => {
           {links.map((link) => {
             const { id, text, url } = link
             return (
-              <li key={id}>
+              <li key={id} className='main'>
                 <Link to={url}>{text}</Link>
               </li>
             )
           })}
-          {userState.userId && (
+          {userState.token && (
             <>
-              <li>
+              <li id='checkout'>
                 <Link to='/checkout'>checkout</Link>
               </li>
-              <li>
+              <li id='logout'>
               <Link to='/logout'>Logout</Link>
             </li>
+          </>
+          )}
+          {!userState.token && (
+            <>
+              <li>
+                <Link to='/login'>Login</Link>
+              </li>
           </>
           )}
         </ul>
