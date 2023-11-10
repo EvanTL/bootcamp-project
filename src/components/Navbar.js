@@ -47,12 +47,19 @@ const Nav = () => {
           {!userState.token && (
             <>
               <li>
+                <Link to='/signup'>Login</Link>
+              </li>
+              <li>
                 <Link to='/login'>Login</Link>
               </li>
           </>
           )}
         </ul>
-        <Link to='/cart'><CartButtons /></Link>
+        {userState.token && (
+          <>
+          <Link to='/cart'><CartButtons /></Link>
+          </>
+        )}
       </div>
     </div>
   )
