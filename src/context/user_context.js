@@ -63,7 +63,7 @@ export const UserProvider = ({ children }) => {
 
       axios.post(`http://localhost:8000/auth/signup`,userData).then(resp => {
 
-          dispatch({ type: 'USER_REGISTER_SUCCESS', payload: resp });
+          dispatch({ type: 'USER_REGISTER_SUCCESS', payload: resp.message });
       
         }).catch(err => {
 
