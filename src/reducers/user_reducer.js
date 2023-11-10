@@ -1,6 +1,3 @@
-import { useNavigate } from 'react-router-dom'
-const navigate = useNavigate()
-
   
 
 const user_reducer = (state, action) => {
@@ -30,8 +27,7 @@ const user_reducer = (state, action) => {
 
     if (action.type === 'USER_LOGOUT') {
         localStorage.removeItem('userInfo')
-        return navigate('/')
-        //TODO
+        
     }
 
     if (action.type === 'USER_REGISTER_REQUEST') {
@@ -41,7 +37,7 @@ const user_reducer = (state, action) => {
         return {...state, loading: false, error: action.payload}
     }
     if (action.type === 'USER_REGISTER_SUCCESS') {
-        return navigate('/login')
+        return {...state, loading: false, resp: action.payload}
     }
     
     
