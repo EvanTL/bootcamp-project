@@ -12,11 +12,11 @@ const Signup = () => {
   const [password, setPassword] = useState("");
 
   const navigate = useNavigate();
-  const { userState, signup } = useUserContext();
+  const { userState, register } = useUserContext();
 
   const submitHandler = async (e) => {
     e.preventDefault();
-    await signup(name, email, password);
+    await register(name, email, password);
     if (userState.message === "Signup success"){
       navigate('/login')
     }
