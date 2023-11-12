@@ -34,7 +34,7 @@ const Nav = () => {
               </li>
             )
           })}
-          {userState.token && (
+          {userState.token !== "" && (
             <>
               <li id='checkout'>
                 <Link to='/checkout'>checkout</Link>
@@ -44,10 +44,10 @@ const Nav = () => {
             </li>
           </>
           )}
-          {!userState.token && (
+          {userState.token === "" && (
             <>
               <li>
-                <Link to='/signup'>Login</Link>
+                <Link to='/signup'>Signup</Link>
               </li>
               <li>
                 <Link to='/login'>Login</Link>
@@ -55,7 +55,7 @@ const Nav = () => {
           </>
           )}
         </ul>
-        {userState.token && (
+        {userState.token !== "" && (
           <>
           <Link to='/cart'><CartButtons /></Link>
           </>
