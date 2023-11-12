@@ -27,7 +27,12 @@ const user_reducer = (state, action) => {
 
     if (action.type === 'USER_LOGOUT') {
         localStorage.removeItem('userInfo')
-        
+        return {
+            ...state,
+            loading: true,
+            userId: "",
+            token: ""
+        }
     }
 
     if (action.type === 'USER_REGISTER_REQUEST') {
@@ -37,7 +42,13 @@ const user_reducer = (state, action) => {
         return {...state, loading: false, error: action.payload}
     }
     if (action.type === 'USER_REGISTER_SUCCESS') {
-        return {...state, loading: false, resp: action.payload}
+        const newState = {
+            ...state,
+            message: action.payload.message,
+            loading: false,
+            error: ''
+        }
+        return newState
     }
     
     
