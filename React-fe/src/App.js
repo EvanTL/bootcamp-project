@@ -18,6 +18,8 @@ import SingleProductPage from './pages/SingleProductPage'
 import DeliveryAddress from './components/DeliveryAddress'
 import PaymentMethod from './components/PaymentMethod'
 import ReviewOrder from './components/ReviewOrder'
+import Logout from './pages/Logout'
+import Signup from './pages/Signup'
 function App() {
   return (
     <AuthWrapper>
@@ -28,6 +30,8 @@ function App() {
           <Route path='/' element={<Home />} />
           <Route path='about' element={<About/>} />
           <Route path='login' element={<Login/>} />
+          <Route path='logout' element={<Logout/>} />
+          <Route path='signup' element={<Signup/>} />
           <Route path='products' element={<Products/>} />
           <Route path='checkout/*' element={<Checkout/>}>
               <Route path="" element={<DeliveryAddress/>}/>
