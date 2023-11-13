@@ -8,7 +8,7 @@ import { Loading } from "../components";
 const Logout = () => {
 
   const navigate = useNavigate();
-  const { userState, logout } = useUserContext();
+  const { logout } = useUserContext();
 
   
   useEffect(()=>{
@@ -22,7 +22,7 @@ const Logout = () => {
 
   return (
     <div className="min-h-full">
-      {userState.loading && <Loading/>}
+      <Loading/>
     </div>
   );
 };
