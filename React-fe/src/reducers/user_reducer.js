@@ -26,10 +26,9 @@ const user_reducer = (state, action) => {
 
 
     if (action.type === 'USER_LOGOUT') {
-        localStorage.removeItem('userInfo')
+        localStorage.clear()
         return {
             ...state,
-            loading: true,
             userId: "",
             token: ""
         }
