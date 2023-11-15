@@ -1,0 +1,28 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+React-fe/node_modules
+Web-admin/node_modules
+
+React-fe/.pnp
+React-fe/.pnp.js
+
+# testing
+React-fe/coverage
+
+# production
+React-fe/build
+
+# misc
+React-fe/.DS_Store
+React-fe/.env.local
+React-fe/.env.development.local
+React-fe/.env.test.local
+React-fe/.env.production.local
+React-fe/.env
+React-fe/npm-debug.log*
+React-fe/yarn-debug.log*
+React-fe/yarn-error.log*
+
+# Local Netlify folder
+React-fe/.netlify
