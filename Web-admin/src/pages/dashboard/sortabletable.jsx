@@ -1,5 +1,6 @@
 import DataTable from 'react-data-table-component';
 import React from 'react';
+import { useUsersContext } from '@/context/user_context';
 import {
     MagnifyingGlassIcon,
     ChevronUpDownIcon,
@@ -52,7 +53,6 @@ import {
       sortable: true,
       cell : (record) => (
         <div className="flex items-center gap-3">
-          <Avatar src={record.img} alt={name} size="sm" />
           <div className="flex flex-col">
             <Typography
               variant="small"
@@ -73,13 +73,16 @@ import {
       )
     },
     {
-      name: 'Job',
-      selector: row => row.job,
+      name: 'Role',
+      selector: row => row.role,
       sortable: true,
     },
     {
       name: 'Date',
-      selector: row => row.date,
+      selector: row => {
+        const date = new Date(row.createdAt)
+        return date.toLocaleDateString('en-US')
+      },
       sortable: true,
     },
     {
@@ -102,59 +105,6 @@ import {
   	},
   ];
    
-  const TABLE_ROWS = [
-    {
-      id: 1,
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-3.jpg",
-      name: "John Michael",
-      email: "john@creative-tim.com",
-      job: "Manager",
-      org: "Organization",
-      online: true,
-      date: "23/04/18",
-    },
-    {
-      id: 2,
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-2.jpg",
-      name: "Alexa Liras",
-      email: "alexa@creative-tim.com",
-      job: "Programator",
-      org: "Developer",
-      online: false,
-      date: "23/04/18",
-    },
-    {
-      id: 3,
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-1.jpg",
-      name: "Laurent Perrier",
-      email: "laurent@creative-tim.com",
-      job: "Executive",
-      org: "Projects",
-      online: false,
-      date: "19/09/17",
-    },
-    {
-      id: 4,
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-4.jpg",
-      name: "Michael Levi",
-      email: "michael@creative-tim.com",
-      job: "Programator",
-      org: "Developer",
-      online: true,
-      date: "24/12/08",
-    },
-    {
-      id: 5,
-      img: "https://demos.creative-tim.com/test/corporate-ui-dashboard/assets/img/team-5.jpg",
-      name: "Richard Gran",
-      email: "richard@creative-tim.com",
-      job: "Manager",
-      org: "Executive",
-      online: false,
-      date: "04/10/21",
-    },
-  ];
-   
 
   export function SortableTable() {
     
@@ -169,6 +119,8 @@ import {
     const handleClearRows = () => {
       setToggleClearRows(!toggledClearRows);
     }
+
+    const { users } = useUsersContext()
     
     return (
       <Card className="h-full w-full">
@@ -181,7 +133,7 @@ import {
         
         <DataTable
             columns={TABLE_HEAD}
-            data={TABLE_ROWS}
+            data={users}
             selectableRows
             onSelectedRowsChange={handleChange}
             clearSelectedRows={toggledClearRows}
