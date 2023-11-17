@@ -7,6 +7,9 @@ import {
   GET_SINGLE_PRODUCT_BEGIN,
   GET_SINGLE_PRODUCT_SUCCESS,
   GET_SINGLE_PRODUCT_ERROR,
+  DELETE_SINGLE_PRODUCT_BEGIN,
+  DELETE_SINGLE_PRODUCT_SUCCESS,
+  DELETE_SINGLE_PRODUCT_ERROR
 } from '../components/actions'
 
 const products_reducer = (state, action) => {
