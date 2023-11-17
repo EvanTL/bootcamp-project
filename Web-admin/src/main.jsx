@@ -17,6 +17,7 @@ import { ThemeProvider } from "@material-tailwind/react";
 import { MaterialTailwindControllerProvider } from "@/context";
 import { ProductsProvider } from "./context/products_context";
 import "../public/css/tailwind.css";
+import { UsersProvider } from "./context/user_context";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -24,7 +25,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <ThemeProvider>
         <MaterialTailwindControllerProvider>
           <ProductsProvider>
-          <App />
+            <UsersProvider>
+            <App />
+            </UsersProvider>
           </ProductsProvider>
         </MaterialTailwindControllerProvider>
       </ThemeProvider>
