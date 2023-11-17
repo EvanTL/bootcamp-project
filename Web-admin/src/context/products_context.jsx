@@ -10,6 +10,9 @@ import {
   GET_SINGLE_PRODUCT_BEGIN,
   GET_SINGLE_PRODUCT_SUCCESS,
   GET_SINGLE_PRODUCT_ERROR,
+  DELETE_SINGLE_PRODUCT_BEGIN,
+  DELETE_SINGLE_PRODUCT_SUCCESS,
+  DELETE_SINGLE_PRODUCT_ERROR
 } from '../components/actions'
 
 const initialState = {
@@ -25,9 +28,11 @@ const initialState = {
 
 const ProductsContext = React.createContext()
 
-export const products_url = 'https://63cdf885d2e8c29a9bced636.mockapi.io/api/v1/products'
+export const products_url = 'http://localhost:8000/admin/products'
 
-export const single_product_url = 'https://63cdf885d2e8c29a9bced636.mockapi.io/api/v1/products/'
+export const single_product_url = 'http://localhost:8000/admin/products'
+
+export const delete_single_product = 'http://localhost:8000/admin/delete-product'
 
 export const ProductsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -64,6 +69,17 @@ export const ProductsProvider = ({ children }) => {
     }
   }
 
+  const deleteSingleProduct = async (delete_single_product) => {
+    dispatch({type: DELETE_SINGLE_PRODUCT_BEGIN})
+    try{
+      const response = await axios.delete(delete_single_product)
+      const singleProduct = response.data
+      dispatch({ type: DELETE_SINGLE_PRODUCT_SUCCESS, payload: singleProduct })
+    } catch (error) {
+      dispatch({ type: DELETE_SINGLE_PRODUCT_ERROR })
+    }
+  }
+
   useEffect(() => {
     fetchProducts(products_url)
   }, [])
@@ -75,6 +91,7 @@ export const ProductsProvider = ({ children }) => {
         openSidebar,
         closeSidebar,
         fetchSingleProduct,
+        deleteSingleProduct,
       }}
     >
       {children}
