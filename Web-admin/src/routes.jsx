@@ -6,9 +6,9 @@ import {
   ArrowRightOnRectangleIcon,
   UserPlusIcon,
 } from "@heroicons/react/24/solid";
-import { Home, Profile, Tables, Notifications } from "@/pages/dashboard";
+import { Home, Profile, Notifications, Products } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
-import { SortableTable } from "./pages/dashboard/sortabletable";
+import { Users } from "./pages/dashboard/users";
 import { ProductEditScreen } from "./pages/dashboard/ProductEditScreen";
 
 const icon = {
@@ -35,18 +35,18 @@ export const routes = [
         icon: <TableCellsIcon {...icon} />,
         name: "products",
         path: "/products",
-        element: <Tables />,
+        element: <Products />,
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "users",
         path: "/users",
-        element: <SortableTable/>,
+        element: <Users/>,
       },
       {
         icon: <TableCellsIcon {...icon} />,
         name: "Edit Product",
-        path: "/editproduct",
+        path: "/editproduct/*",
         element: <ProductEditScreen/>,
       },
       {
