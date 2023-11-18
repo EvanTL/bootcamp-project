@@ -18,9 +18,23 @@ import { useProductsContext } from "@/context/products_context";
 import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom"
 
-export function Tables() {
-  const { products } = useProductsContext()
+export function Products() {
+  const { products, deleteProducts, update_data } = useProductsContext()
   const navigate = useNavigate()
+
+  const [selectedRows, setSelectedRows] = React.useState(false);
+
+  const handleChange = ({ selectedRows }) => {
+    setSelectedRows(selectedRows);
+    console.log(selectedRows);
+  };
+
+  const handleClearRows = () => {
+    selectedRows.map(product => {
+      deleteProducts(product._id)
+    })
+    setSelectedRows(false)
+  }
 
   const TABS = [
     {
@@ -53,13 +67,23 @@ export function Tables() {
             >
               {record.title}
             </Typography>
+            <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal opacity-70"
+              >
+                {record._id}
+              </Typography>
           </div>
         </div>
       )
     },
     {
       name: 'Price',
-      selector: row => row.price,
+      selector: row => new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+      }).format(row.price),
       sortable: true,
     },
     {
@@ -70,7 +94,6 @@ export function Tables() {
     {
       name: 'Featured',
       selector: row => row.featured,
-      sortable: true,
       cell : (record) => (
         <div className="flex items-center gap-3">
           <Chip
@@ -86,14 +109,15 @@ export function Tables() {
       name: 'Action',
       button: true,
       cell: (record) => <div>
-        <IconButton variant="text" onClick={() => {
-          navigate('/dashboard/editproduct')
+        <IconButton variant="text" disabled={selectedRows.length === 0} onClick={() => {
+          navigate(`/dashboard/editproduct/${record._id}`)
         }}>
           <PencilIcon className="h-4 w-4" />
         </IconButton>
         
-        <IconButton variant="text" onClick={() => {
-          dele
+        <IconButton variant="text" disabled={selectedRows.length !== 0} onClick={() => {
+          deleteProducts(record._id)
+          console.log(update_data)
         }}>
           <TrashIcon className="h-4 w-4" />
         </IconButton>
@@ -102,26 +126,22 @@ export function Tables() {
     },
   ];
 
-  const [selectedRows, setSelectedRows] = React.useState(false);
-    const [toggledClearRows, setToggleClearRows] = React.useState(false);
-
-    const handleChange = ({ selectedRows }) => {
-      setSelectedRows(selectedRows);
-      console.log(selectedRows);
-    };
-
-    const handleClearRows = () => {
-      setToggleClearRows(!toggledClearRows);
-    }
-
   return (
     <div className="mt-12 mb-8 flex flex-col gap-12">
       <Card>
-        <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
+        <CardHeader variant="gradient" color="blue" className="mb-6 p-6">
           <Typography variant="h6" color="white">
             List Products
           </Typography>
         </CardHeader>
+        { 
+          selectedRows.length > 0 ? 
+          (
+            <Card color='blue' className=" border-l-4 p-4 mb-4 mx-4" role="alert">
+              <h6>{selectedRows.length} {selectedRows.length > 1 ? <>items</> : <>item</>} selected</h6>
+            </Card>
+           ) : null
+        }
         <div className="ml-4 flex shrink-0 flex-col gap-2 sm:flex-row">
           <Button onClick={handleClearRows} className="flex items-center gap-3" size="sm">
             Clear Selected Rows
@@ -131,6 +151,8 @@ export function Tables() {
         <DataTable
             columns={TABLE_HEAD}
             data={products}
+            selectableRows
+            onSelectedRowsChange={handleChange}
         />
         </CardBody>
       </Card>
@@ -139,4 +161,4 @@ export function Tables() {
   );
 }
 
-export default Tables;
+export default Products;
