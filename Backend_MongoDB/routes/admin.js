@@ -29,7 +29,13 @@ router.get('/products', productsController.getProducts) //get products
 router.get('/product/:productId', productsController.getProductsbyId) // Get single product
 
 //Final project routing: Users
+
+//Get users
 router.get('/users', userController.getUsers)
+
+//Delete Users
+router.delete('/delete-user/:userId', userController.deleteUser)
+
 //Raw queries
 
 // router.post('/raw-products', rawQuery)
