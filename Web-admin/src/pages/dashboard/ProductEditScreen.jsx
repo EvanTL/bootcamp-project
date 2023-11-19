@@ -20,27 +20,35 @@ export function ProductEditScreen() {
 
   useEffect(() => {
     fetchSingleProduct(productId)
-  }, [window.location.pathname])
+  }, [])
 
-  console.log(single_product)
+  const {title} = single_product
 
-  const {title, price, description} = single_product
-
-  const [image, setImage] = useState();
-  const [name, setName] = useState("")
-  const [newPrice, setNewPrice] = useState("")
-  const [desc, setDesc] = useState("")
+  const [image, setImage] = useState(null);
+  const [name, setName] = useState(title)
+  const [newPrice, setNewPrice] = useState(single_product.price)
+  const [desc, setDesc] = useState(single_product.description)
+  const [featured, setFeatured] = useState(single_product.featured)
     function handleChange(e) {
       console.log(image)
-      setImage(URL.createObjectURL(e.target.files[0]));
+      setImage(e.target.files[0]);
     }
 
     const handleSubmit = async (e) => {
       e.preventDefault()
-      await updateSingleProduct(name, newPrice, desc, image, productId)
-      console.log(update_data)
-      if (update_data.status === 200){
-        navigate('/dashboard/products')
+      const formData = new FormData()
+      formData.append('image', image)
+      formData.append('newTitle', name)
+      formData.append('newPrice', newPrice)
+      formData.append('newDesc', desc)
+      formData.append('newFeatured', featured)
+
+      await updateSingleProduct(formData, productId)
+      if(JSON.stringify(update_data) !== "{}"){
+        alert(update_data.message)
+        if (update_data.status === 200){
+          navigate('/dashboard/products')
+        }
       }
     }
 
@@ -65,11 +73,14 @@ export function ProductEditScreen() {
               setDesc(e.target.value)
             }} />
             <input type="file" className="mt-2" onChange={handleChange} />
-            <img className="h-45 w-full rounded-lg object-cover object-center" src={image} />
+            <img src={image} className="h-45 w-full rounded-lg object-cover object-center" alt="not found" />
             </div>
             <div>
             <Input size="lg" label="Price" value={newPrice} onChange={(e) => {
               setNewPrice(e.target.value)
+            }} />
+            <Checkbox size='md' label="featured" value={featured} onChange={(e) => {
+              setFeatured(!featured)
             }} />
             </div>
           </div>
