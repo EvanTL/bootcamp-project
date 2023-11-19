@@ -20,14 +20,16 @@ export function ProductEditScreen() {
 
   useEffect(() => {
     fetchSingleProduct(productId)
-  }, [])
+  }, [window.location.pathname])
+
+  console.log(single_product)
 
   const {title, price, description} = single_product
 
   const [image, setImage] = useState();
-  const [name, setName] = useState(title)
-  const [newPrice, setNewPrice] = useState(price)
-  const [desc, setDesc] = useState(description)
+  const [name, setName] = useState("")
+  const [newPrice, setNewPrice] = useState("")
+  const [desc, setDesc] = useState("")
     function handleChange(e) {
       console.log(image)
       setImage(URL.createObjectURL(e.target.files[0]));
@@ -60,13 +62,14 @@ export function ProductEditScreen() {
               <Option>T-Shirt</Option>
             </Select>
             <Textarea  size="lg" color="purple" label="Description" value={desc} onChange={(e) => {
+              setDesc(e.target.value)
             }} />
             <input type="file" className="mt-2" onChange={handleChange} />
             <img className="h-45 w-full rounded-lg object-cover object-center" src={image} />
             </div>
             <div>
             <Input size="lg" label="Price" value={newPrice} onChange={(e) => {
-              console.log("Price:" + newPrice)
+              setNewPrice(e.target.value)
             }} />
             </div>
           </div>
