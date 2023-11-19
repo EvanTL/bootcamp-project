@@ -66,6 +66,7 @@ exports.updateProduct = (req, res, next) => {
     const newPrice = req.body.newPrice
     const newColors = req.body.newColors
     const image = req.file.path.replace('\\', '/')
+    const newFeatured = req.body.newFeatured
     // const userId = req.userId
 
     const errors = validationResult(req)
@@ -87,7 +88,8 @@ exports.updateProduct = (req, res, next) => {
             price: newPrice,
             description: newDesc,
             // colors: newColors,
-            imageUrl: image
+            imageUrl: image,
+            featured: newFeatured
         },
         {
             new: true
