@@ -13,6 +13,9 @@ import {
   DELETE_PRODUCTS_BEGIN,
   DELETE_PRODUCTS_SUCCESS,
   DELETE_PRODUCTS_ERROR,
+  CREATE_SINGLE_PRODUCT_BEGIN,
+  CREATE_SINGLE_PRODUCT_SUCCESS,
+  CREATE_SINGLE_PRODUCT_ERROR,
 } from '../components/actions'
 
 const products_reducer = (state, action) => {
@@ -59,6 +62,29 @@ const products_reducer = (state, action) => {
       ...state,
       single_product_loading: false,
       single_product_error: true,
+    }
+  }
+  if (action.type === CREATE_SINGLE_PRODUCT_BEGIN) {
+    return {
+      ...state,
+      single_product_loading: true,
+      single_product_error: false,
+    }
+  }
+  if (action.type === CREATE_SINGLE_PRODUCT_SUCCESS) {
+    return {
+      ...state,
+      single_product_loading: false,
+      single_product_error: false,
+      update_data: action.payload
+    }
+  }
+  if (action.type === CREATE_SINGLE_PRODUCT_ERROR) {
+    return {
+      ...state,
+      single_product_loading: false,
+      single_product_error: true,
+      update_data: action.payload
     }
   }
   if (action.type === UPDATE_SINGLE_PRODUCT_BEGIN) {
