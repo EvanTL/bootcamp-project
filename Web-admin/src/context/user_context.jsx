@@ -9,7 +9,10 @@ import {
   GET_USERS_ERROR,
   GET_SINGLE_USER_BEGIN,
   GET_SINGLE_USER_SUCCESS,
-  GET_SINGLE_USER_ERROR
+  GET_SINGLE_USER_ERROR,
+  DELETE_USERS_BEGIN,
+  DELETE_USERS_SUCCESS,
+  DELETE_USERS_ERROR
 } from '../components/actions'
 
 const initialState = {
@@ -20,6 +23,7 @@ const initialState = {
   single_user_loading: false,
   single_user_error: false,
   single_user: {},
+  update_data: {}
 }
 
 const UsersContext = React.createContext()
@@ -44,7 +48,6 @@ export const UsersProvider = ({ children }) => {
     try {
       const response = await axios.get(users_url)
       const users = response.data
-      console.log(users)
       dispatch({ type: GET_USERS_SUCCESS, payload: users })
     } catch (error) {
       console.log(error)
@@ -63,6 +66,17 @@ export const UsersProvider = ({ children }) => {
     }
   }
 
+  const deleteUsers = (userId) => {
+    dispatch({type: DELETE_USERS_BEGIN})
+
+    axios.delete(`http://localhost:8000/admin/delete-user/${userId}`)
+    .then(resp => {
+      dispatch({ type: DELETE_USERS_SUCCESS, payload: resp.data })
+    }).catch(error => {
+      dispatch({ type: DELETE_USERS_ERROR, payload: error.response.data })
+    })
+  }
+
   useEffect(() => {
     fetchUsers(users_url)
   }, [])
@@ -74,6 +88,7 @@ export const UsersProvider = ({ children }) => {
         openSidebar,
         closeSidebar,
         fetchSingleUser,
+        deleteUsers
       }}
     >
       {children}
