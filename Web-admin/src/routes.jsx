@@ -10,6 +10,7 @@ import { Home, Profile, Notifications, Products } from "@/pages/dashboard";
 import { SignIn, SignUp } from "@/pages/auth";
 import { Users } from "./pages/dashboard/users";
 import { ProductEditScreen } from "./pages/dashboard/ProductEditScreen";
+import { ProductCreateScreen } from "./pages/dashboard/ProductCreateScreen";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -48,6 +49,18 @@ export const routes = [
         name: "Edit Product",
         path: "/editproduct/*",
         element: <ProductEditScreen/>,
+      },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Create Product",
+        path: "/createproduct/",
+        element: <ProductCreateScreen/>,
+      },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Edit User",
+        path: "/edituser/*",
+        element: <ProductCreateScreen/>,
       },
       {
         icon: <BellIcon {...icon} />,
