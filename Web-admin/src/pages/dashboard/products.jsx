@@ -19,7 +19,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom"
 
 export function Products() {
-  const { products, deleteProducts, update_data } = useProductsContext()
+  const { products, fetchProducts, deleteProducts, update_data } = useProductsContext()
   const navigate = useNavigate()
 
   const [selectedRows, setSelectedRows] = React.useState(false);
@@ -145,6 +145,9 @@ export function Products() {
         <div className="ml-4 flex shrink-0 flex-col gap-2 sm:flex-row">
           <Button onClick={handleClearRows} className="flex items-center gap-3" size="sm">
             Clear Selected Rows
+          </Button>
+          <Button onClick={() => navigate('/dashboard/createproduct')} className="flex items-center gap-3" size="sm">
+            Add Product
           </Button>
         </div>
         <CardBody className="overflow-x-scroll px-0 pt-0 pb-2">
