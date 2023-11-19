@@ -23,6 +23,7 @@ import {
     Tooltip,
     Alert,
   } from "@material-tailwind/react";
+import { useNavigate } from 'react-router-dom';
 
   const showAlerts = {
     "blue": true,
@@ -51,6 +52,8 @@ import {
     
     const [selectedRows, setSelectedRows] = React.useState(false);
     const [toggledClearRows, setToggleClearRows] = React.useState(false);
+    const { users, deleteUsers } = useUsersContext()
+    const navigate = useNavigate()
 
     const handleChange = ({ selectedRows }) => {
       setSelectedRows(selectedRows);
@@ -59,9 +62,11 @@ import {
 
     const handleClearRows = () => {
       setToggleClearRows(!toggledClearRows);
+      selectedRows.map(user => {
+        deleteUsers(user._id)
+      })
+      setSelectedRows(false)
     }
-
-    const { users } = useUsersContext()
 
     const TABLE_HEAD = [
       {
@@ -112,13 +117,13 @@ import {
         button: true,
         cell: (record) => <div>
           <IconButton variant="text" onClick={() => {
-            alert(record.name)
+            navigate(`/dashboard/edituser/${record._id}`)
           }}>
             <PencilIcon className="h-4 w-4" />
           </IconButton>
           
           <IconButton variant="text" onClick={() => {
-            alert(record.role);
+            deleteUsers(record._id)
           }}>
             <TrashIcon className="h-4 w-4" />
           </IconButton>
