@@ -57,7 +57,7 @@ exports.postUpdateUser = (req, res, next) => {
 }
 
 //Delete user
-exports.deleteUser = (req, res) => {
+exports.deleteUser = (req, res, next) => {
     const userId = req.params.userId
 
     Users.findById(userId)
@@ -68,7 +68,7 @@ exports.deleteUser = (req, res) => {
             throw error
         }
 
-        return user.destroy()
+        return user.deleteOne()
     })
     .then(() => {
         console.log("User Deleted")
