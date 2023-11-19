@@ -10,6 +10,9 @@ import {
   GET_SINGLE_PRODUCT_BEGIN,
   GET_SINGLE_PRODUCT_SUCCESS,
   GET_SINGLE_PRODUCT_ERROR,
+  CREATE_SINGLE_PRODUCT_BEGIN,
+  CREATE_SINGLE_PRODUCT_SUCCESS,
+  CREATE_SINGLE_PRODUCT_ERROR,
   UPDATE_SINGLE_PRODUCT_BEGIN,
   UPDATE_SINGLE_PRODUCT_SUCCESS,
   UPDATE_SINGLE_PRODUCT_ERROR,
@@ -64,32 +67,36 @@ export const ProductsProvider = ({ children }) => {
     .then(resp => {
       dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: resp.data })
     }).catch(error => {
-      dispatch({ type: GET_SINGLE_PRODUCT_ERROR, payload: error.response })
+      dispatch({ type: GET_SINGLE_PRODUCT_ERROR, payload: error.response.data })
     })
-    // try {
-    //   const response = await axios.get(single_product_url)
-    //   const singleProduct = response.data
-    //   dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: singleProduct })
-    // } catch (error) {
-    //   dispatch({ type: GET_SINGLE_PRODUCT_ERROR })
-    // }
   }
 
-  const updateSingleProduct = (name, newPrice, desc, image, productId) => {
+  const createSingleProduct = (formData) => {
+    dispatch({type: CREATE_SINGLE_PRODUCT_BEGIN})
+
+    axios.post('http://localhost:8000/admin/add-product', formData, {
+      headers: {
+        'Content-Type': 'application/form-data'
+      }
+    }).then(resp => {
+      dispatch({type: CREATE_SINGLE_PRODUCT_SUCCESS, payload: resp.data})
+    }).catch(error => {
+      dispatch({ type: CREATE_SINGLE_PRODUCT_ERROR, payload: error.response.data })
+    })
+  }
+
+  const updateSingleProduct = (formData, productId) => {
     dispatch({type: UPDATE_SINGLE_PRODUCT_BEGIN})
 
-    const updateData = {
-      image: image,
-      newTitle: name,
-      newPrice: newPrice,
-      newDesc: desc
-    }
-
-    axios.post(`http://localhost:8000/admin/update-product/${productId}`, updateData)
+    axios.post(`http://localhost:8000/admin/update-product/${productId}`, formData, {
+      headers: {
+        'Content-Type': 'application/form-data'
+      },
+    })
     .then(resp => {
       dispatch({type: UPDATE_SINGLE_PRODUCT_SUCCESS, payload: resp.data})
     }).catch(error => {
-      dispatch({ type: UPDATE_SINGLE_PRODUCT_ERROR, payload: error.response })
+      dispatch({ type: UPDATE_SINGLE_PRODUCT_ERROR, payload: error.response.data })
     })
   }
 
@@ -100,13 +107,13 @@ export const ProductsProvider = ({ children }) => {
     .then(resp => {
       dispatch({ type: DELETE_PRODUCTS_SUCCESS, payload: resp.data })
     }).catch(error => {
-      dispatch({ type: DELETE_PRODUCTS_ERROR, payload: error.response })
+      dispatch({ type: DELETE_PRODUCTS_ERROR, payload: error.response.data })
     })
   }
 
   useEffect(() => {
     fetchProducts(products_url)
-  }, [products_url])
+  }, [])
 
   return (
     <ProductsContext.Provider
@@ -114,7 +121,9 @@ export const ProductsProvider = ({ children }) => {
         ...state,
         openSidebar,
         closeSidebar,
+        fetchProducts,
         fetchSingleProduct,
+        createSingleProduct,
         updateSingleProduct,
         deleteProducts,
       }}
