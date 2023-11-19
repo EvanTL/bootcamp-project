@@ -3,6 +3,7 @@
 # dependencies
 React-fe/node_modules
 Web-admin/node_modules
+Backend_MongoDB/node_modules
 
 React-fe/.pnp
 React-fe/.pnp.js
