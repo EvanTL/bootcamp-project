@@ -7,6 +7,7 @@ const userController = require('../controllers/users')
 const { body, param } = require('express-validator')
 const isAuth = require('../middleware/is-auth')
 const Products = require('../models/products')
+const Users = require('../models/users')
 const adminAuth = require('../middleware/admin-auth')
 
 //Final project routing: Products
@@ -32,6 +33,24 @@ router.get('/product/:productId', productsController.getProductsbyId) // Get sin
 
 //Get users
 router.get('/users', userController.getUsers)
+
+//Get Single User
+router.get('/user/:userId', userController.getUser)
+
+//Update User
+router.post('/update-user/:userId', [
+    body('newEmail').isEmail().withMessage('Please enter a valid email address')
+    .custom((value, {req}) => {
+      return Users.findOne({email : value})
+      .then(userDoc => {
+        if(userDoc){
+            return Promise.reject('Email already exists')
+        }
+      })  
+    })
+    .normalizeEmail(),
+    body('newName').not().isEmpty().withMessage('name cannot be empty'),
+], userController.postUpdateUser)
 
 //Delete Users
 router.delete('/delete-user/:userId', userController.deleteUser)
