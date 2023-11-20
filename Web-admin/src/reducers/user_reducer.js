@@ -9,7 +9,10 @@
   GET_SINGLE_USER_ERROR,
   DELETE_USERS_BEGIN,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_ERROR
+  DELETE_USERS_ERROR,
+  UPDATE_SINGLE_USER_BEGIN,
+  UPDATE_SINGLE_USER_SUCCESS,
+  UPDATE_SINGLE_USER_ERROR
 } from '../components/actions'
 
 const user_reducer = (state, action) => {
@@ -48,6 +51,27 @@ const user_reducer = (state, action) => {
     }
   }
   if (action.type === GET_SINGLE_USER_ERROR) {
+    return {
+      ...state,
+      single_user_loading: false,
+      single_user_error: true,
+    }
+  }
+  if (action.type === UPDATE_SINGLE_USER_BEGIN) {
+    return {
+      ...state,
+      single_user_loading: true,
+      single_user_error: false,
+    }
+  }
+  if (action.type === UPDATE_SINGLE_USER_SUCCESS) {
+    return {
+      ...state,
+      single_user_loading: false,
+      update_data: action.payload,
+    }
+  }
+  if (action.type === UPDATE_SINGLE_USER_ERROR) {
     return {
       ...state,
       single_user_loading: false,
