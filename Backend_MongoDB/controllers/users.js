@@ -2,12 +2,18 @@ const Users = require('../models/users')
 
 //Get user by ID
 exports.getUser = (req, res, next) => {
-    const userId = req.params.id
+    const userId = req.params.userId
 
-    Users.findByPk(userId)
+    Users.findById(userId)
+    .select('name email role createdAt _id')
     .then(user => {
         res.json(user)
-    }).catch(err => console.log(err))
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
 }
 
 exports.getUsers = (req, res, next) => {
@@ -41,9 +47,10 @@ exports.getUserbyQuery = (req, res, next) => {
 
 //Update user data
 exports.postUpdateUser = (req, res, next) => {
-    const {userId, newName, newEmail} = req.body
+    const {newName, newEmail} = req.body
+    const userId = req.params.userId
 
-    Users.findByPk(userId)
+    Users.findById(userId)
     .then(user => {
         user.name = newName,
         user.email = newEmail
@@ -52,8 +59,16 @@ exports.postUpdateUser = (req, res, next) => {
     })
     .then(result => {
         console.log(result)
-        res.send("User updated")
-    }).catch(err => console.log(err))
+        res.json({
+            status: 200,
+            message: "User updated"
+        })
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
 }
 
 //Delete user
