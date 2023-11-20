@@ -44,7 +44,7 @@ export function ProductEditScreen() {
       formData.append('newFeatured', featured)
 
       await updateSingleProduct(formData, productId)
-      if(JSON.stringify(update_data) !== "{}"){
+      if(update_data){
         alert(update_data.message)
         if (update_data.status === 200){
           navigate('/dashboard/products')
