@@ -11,6 +11,7 @@ import { SignIn, SignUp } from "@/pages/auth";
 import { Users } from "./pages/dashboard/users";
 import { ProductEditScreen } from "./pages/dashboard/ProductEditScreen";
 import { ProductCreateScreen } from "./pages/dashboard/ProductCreateScreen";
+import { UserEditScreen } from "./pages/dashboard/UserEditScreen";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -60,7 +61,7 @@ export const routes = [
         icon: <TableCellsIcon {...icon} />,
         name: "Edit User",
         path: "/edituser/*",
-        element: <ProductCreateScreen/>,
+        element: <UserEditScreen/>,
       },
       {
         icon: <BellIcon {...icon} />,
