@@ -12,7 +12,10 @@ import {
   GET_SINGLE_USER_ERROR,
   DELETE_USERS_BEGIN,
   DELETE_USERS_SUCCESS,
-  DELETE_USERS_ERROR
+  DELETE_USERS_ERROR,
+  UPDATE_SINGLE_USER_BEGIN,
+  UPDATE_SINGLE_USER_SUCCESS,
+  UPDATE_SINGLE_USER_ERROR
 } from '../components/actions'
 
 const initialState = {
@@ -29,8 +32,6 @@ const initialState = {
 const UsersContext = React.createContext()
 
 export const users_url = 'http://localhost:8000/admin/users'
-
-export const single_user_url = 'http://localhost:8000/admin/users'
 
 export const UsersProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -55,15 +56,28 @@ export const UsersProvider = ({ children }) => {
     }
   }
 
-  const fetchSingleUser = async (single_user_url) => {
+  const fetchSingleUser = async (userId) => {
     dispatch({ type: GET_SINGLE_USER_BEGIN })
     try {
-      const response = await axios.get(single_user_url)
+      const response = await axios.get(`http://localhost:8000/admin/user/${userId}`)
       const singleUser = response.data
       dispatch({ type: GET_SINGLE_USER_SUCCESS, payload: singleUser })
     } catch (error) {
       dispatch({ type: GET_SINGLE_USER_ERROR })
     }
+  }
+
+  const updateUser = (userId, name, email) => {
+    dispatch({type: UPDATE_SINGLE_USER_BEGIN})
+
+    const userData = {newName:name, newEmail: email}
+
+    axios.post(`http://localhost:8000/admin/update-user/${userId}`, userData)
+    .then(resp => {
+      dispatch({ type: UPDATE_SINGLE_USER_SUCCESS, payload: resp.data })
+    }).catch(error => {
+      dispatch({ type: UPDATE_SINGLE_USER_ERROR, payload: error.response.data })
+    })
   }
 
   const deleteUsers = (userId) => {
@@ -88,6 +102,7 @@ export const UsersProvider = ({ children }) => {
         openSidebar,
         closeSidebar,
         fetchSingleUser,
+        updateUser,
         deleteUsers
       }}
     >
