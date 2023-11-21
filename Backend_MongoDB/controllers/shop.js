@@ -1,7 +1,4 @@
-const {Sequelize, NUMBER} = require("sequelize")
 const Product = require('../models/products')
-const sequelize = require("../util/database")
-const Op = Sequelize.Op
 
 const User = require('../models/users')
 const Cart = require('../models/carts')
