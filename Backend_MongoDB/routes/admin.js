@@ -29,6 +29,8 @@ router.get('/products', productsController.getProducts) //get products
 
 router.get('/product/:productId', productsController.getProductsbyId) // Get single product
 
+router.use('/delete-product/:productId', productsController.deleteProduct) // Delete products
+
 //Final project routing: Users
 
 //Get users
@@ -38,18 +40,14 @@ router.get('/users', userController.getUsers)
 router.get('/user/:userId', userController.getUser)
 
 //Update User
-router.post('/update-user/:userId', [
-    body('newEmail').isEmail().withMessage('Please enter a valid email address')
-    .custom((value, {req}) => {
-      return Users.findOne({email : value})
-      .then(userDoc => {
-        if(userDoc){
-            return Promise.reject('Email already exists')
-        }
-      })  
-    })
-    .normalizeEmail(),
-    body('newName').not().isEmpty().withMessage('name cannot be empty'),
+router.post('/update-user/:userId',
+[
+  body('newEmail').isEmail().withMessage('Please enter a valid email address')
+  .normalizeEmail(),
+
+  body('newName').not().isEmpty().withMessage('name cannot be empty'),
+
+  body('newPassword').trim().isLength({min: 5}).withMessage('Password must be at least 5 char')
 ], userController.postUpdateUser)
 
 //Delete Users
@@ -58,7 +56,7 @@ router.delete('/delete-user/:userId', userController.deleteUser)
 //Raw queries
 
 // router.post('/raw-products', rawQuery)
-router.use('/delete-product/:productId', productsController.deleteProduct)
+
 // router.get('/edit-user-product/:productId', productsController.getEditUserProduct)
 router.get('/user-details/:userId', isAuth, adminAuth, productsController.getProductsbyUser)
 
