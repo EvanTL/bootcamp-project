@@ -67,10 +67,10 @@ export const UsersProvider = ({ children }) => {
     }
   }
 
-  const updateUser = (userId, name, email) => {
+  const updateUser = (userId, name, email, password) => {
     dispatch({type: UPDATE_SINGLE_USER_BEGIN})
 
-    const userData = {newName:name, newEmail: email}
+    const userData = {newName:name, newEmail: email, newPassword: password}
 
     axios.post(`http://localhost:8000/admin/update-user/${userId}`, userData)
     .then(resp => {
@@ -91,16 +91,13 @@ export const UsersProvider = ({ children }) => {
     })
   }
 
-  useEffect(() => {
-    fetchUsers(users_url)
-  }, [])
-
   return (
     <UsersContext.Provider
       value={{
         ...state,
         openSidebar,
         closeSidebar,
+        fetchUsers,
         fetchSingleUser,
         updateUser,
         deleteUsers

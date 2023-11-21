@@ -17,24 +17,21 @@ export function UserEditScreen() {
   const userId = window.location.pathname.split('/')[3]
   const { fetchSingleUser, single_user, single_user_loading, updateUser, update_data } = useUsersContext()
   const navigate = useNavigate()
+
   useEffect(() => {
     fetchSingleUser(userId)
-    console.log(single_user)
   }, [])
 
   const [name, setName] = useState(single_user.name)
   const [email, setEmail] = useState(single_user.email)
+  const [password, setPassword] = useState("")
 
-    const handleSubmit = async (e) => {
+    const handleSubmit = (e) => {
       e.preventDefault()
 
-      await updateUser(userId, name, email)
-      if(update_data){
-        alert(update_data.message)
-        if (update_data.status === 200){
-          navigate('/dashboard/users')
-        }
-      }
+      updateUser(userId, name, email, password)
+      alert(update_data.message)
+      navigate('/dashboard/users')
     }
 
     return (
@@ -50,6 +47,9 @@ export function UserEditScreen() {
             <div>
             <Input size="lg" label="Name" value={name} onChange={(e) => {
               setName(e.target.value)
+            }} />
+            <Input size="lg" type="password" label="Password" value={password} onChange={(e) => {
+              setPassword(e.target.value)
             }} />
             </div>
             <div>
