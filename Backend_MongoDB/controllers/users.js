@@ -1,4 +1,6 @@
 const Users = require('../models/users')
+const bcrypt = require('bcryptjs')
+const {validationResult} = require('express-validator')
 
 //Get user by ID
 exports.getUser = (req, res, next) => {
@@ -47,21 +49,39 @@ exports.getUserbyQuery = (req, res, next) => {
 
 //Update user data
 exports.postUpdateUser = (req, res, next) => {
-    const {newName, newEmail} = req.body
+    const {newName, newEmail, newPassword} = req.body
     const userId = req.params.userId
 
-    Users.findById(userId)
-    .then(user => {
-        user.name = newName,
-        user.email = newEmail
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        const error = new Error('Update Validation Failed')
+        error.statusCode = 530
+        error.message = errors.array()[0].msg
+        throw error
+    }
 
-        return user.save()
-    })
-    .then(result => {
-        console.log(result)
-        res.json({
-            status: 200,
-            message: "User updated"
+    bcrypt.hash(newPassword, 10)
+    .then(hashedPass => {
+        Users.findById(userId)
+        .then(user => {
+            user.name = newName,
+            user.email = newEmail,
+            user.password = hashedPass
+
+            return user.save()
+        })
+        .then(result => {
+            console.log(result)
+            res.json({
+                status: 200,
+                message: "User updated",
+                data: result
+            })
+        }).catch(err => {
+            if(!err.statusCode){
+                err.statusCode = 500
+            }
+            next(err)
         })
     }).catch(err => {
         if(!err.statusCode){
