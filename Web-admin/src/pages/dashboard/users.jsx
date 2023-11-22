@@ -24,6 +24,7 @@ import {
     Alert,
   } from "@material-tailwind/react";
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
   const showAlerts = {
     "blue": true,
@@ -52,7 +53,7 @@ import { useNavigate } from 'react-router-dom';
     
     const [selectedRows, setSelectedRows] = React.useState(false);
     const [toggledClearRows, setToggleClearRows] = React.useState(false);
-    const { users, deleteUsers } = useUsersContext()
+    const { users, deleteUsers, users_loading } = useUsersContext()
     const navigate = useNavigate()
 
     const handleChange = ({ selectedRows }) => {
@@ -132,36 +133,38 @@ import { useNavigate } from 'react-router-dom';
       },
     ];
     
-    return (
-    <div className="mt-12 mb-8 flex flex-col gap-12">
-      <Card className="h-full w-full">
-        <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
-          <Typography variant="h6" color="white">
-            List Users
-          </Typography>
-        </CardHeader>
-        { 
-          selectedRows.length > 0 ? 
-          (
-            <Card color='blue' className=" border-l-4 p-4 mb-4 mx-4" role="alert">
-              <h6>{selectedRows.length} {selectedRows.length > 1 ? <>items</> : <>item</>} selected</h6>
-            </Card>
-           ) : null
-        }
-        <div className="ml-4 flex shrink-0 flex-col gap-2 sm:flex-row">
-          <Button onClick={handleClearRows} className="flex items-center gap-3" size="sm">
-            Clear Selected Rows
-          </Button>
+    if (!users_loading) {
+      return (
+        <div className="mt-12 mb-8 flex flex-col gap-12">
+          <Card className="h-full w-full">
+            <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
+              <Typography variant="h6" color="white">
+                List Users
+              </Typography>
+            </CardHeader>
+            { 
+              selectedRows.length > 0 ? 
+              (
+                <Card color='blue' className=" border-l-4 p-4 mb-4 mx-4" role="alert">
+                  <h6>{selectedRows.length} {selectedRows.length > 1 ? <>items</> : <>item</>} selected</h6>
+                </Card>
+               ) : null
+            }
+            <div className="ml-4 flex shrink-0 flex-col gap-2 sm:flex-row">
+              <Button onClick={handleClearRows} className="flex items-center gap-3" size="sm">
+                Clear Selected Rows
+              </Button>
+            </div>
+            
+            <DataTable
+                columns={TABLE_HEAD}
+                data={users}
+                selectableRows
+                onSelectedRowsChange={handleChange}
+                clearSelectedRows={toggledClearRows}
+            />
+          </Card>
         </div>
-        
-        <DataTable
-            columns={TABLE_HEAD}
-            data={users}
-            selectableRows
-            onSelectedRowsChange={handleChange}
-            clearSelectedRows={toggledClearRows}
-        />
-      </Card>
-    </div>
-    );
+        ); 
+    }
   }

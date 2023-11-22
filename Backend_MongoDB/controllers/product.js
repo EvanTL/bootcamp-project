@@ -64,10 +64,10 @@ exports.updateProduct = (req, res, next) => {
     const newTitle = req.body.newTitle
     const newDesc = req.body.newDesc
     const newPrice = req.body.newPrice
-    const newColors = req.body.newColors
-    const image = req.file.path.replace('\\', '/')
+    //const newColors = req.body.newColors
+    const image = req.file ? req.file.path.replace('\\', '/') : null
     const newFeatured = req.body.newFeatured
-    // const userId = req.userId
+
 
     const errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -76,40 +76,33 @@ exports.updateProduct = (req, res, next) => {
         throw error
     }
 
-    Product.findById(productId).then(product => {
+    Product.findById(productId)
+    .then(product => {
         // if(userId !== product.userId.toString()){
         //     const error = new Error('Access Forbidden')
         //     error.statusCode = 403
         //     throw error
         // }
 
-        Product.findByIdAndUpdate(productId, {
-            title: newTitle,
-            price: newPrice,
-            description: newDesc,
-            // colors: newColors,
-            imageUrl: image,
-            featured: newFeatured
-        },
-        {
-            new: true
+        product.title = newTitle,
+        product.price = newPrice,
+        product.description = newDesc,
+        //product.colors = newColors,
+        product.featured = newFeatured
+
+        if(image){
+            product.imageUrl = image
         }
-        )
-        .then(result => {
+
+        return product.save()
+
+    }).then(result => {
             console.log(result)
-            res.json({
-                status: 200,
+            res.status(200).json({
+                status: "Success",
                 message: "Product updated",
             })
-        })
-        .catch(err => {
-            console.log(err)
-            if(!err.statusCode){
-                err.statusCode = 500
-            }
-            next(err)
-        })
-    }).catch(err => {
+        }).catch(err => {
         if(!err.statusCode){
             err.statusCode = 500
         }

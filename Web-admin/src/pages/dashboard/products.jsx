@@ -19,7 +19,7 @@ import { PencilIcon, TrashIcon } from "@heroicons/react/24/solid";
 import { useNavigate } from "react-router-dom"
 
 export function Products() {
-  const { products, fetchProducts, deleteProducts, update_data } = useProductsContext()
+  const { products, fetchSingleProduct, deleteProducts, update_data } = useProductsContext()
   const navigate = useNavigate()
 
   const [selectedRows, setSelectedRows] = React.useState(false);
@@ -110,6 +110,7 @@ export function Products() {
       button: true,
       cell: (record) => <div>
         <IconButton variant="text" disabled={selectedRows.length === 0} onClick={() => {
+          fetchSingleProduct(record._id)
           navigate(`/dashboard/editproduct/${record._id}`)
         }}>
           <PencilIcon className="h-4 w-4" />

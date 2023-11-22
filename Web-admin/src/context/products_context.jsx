@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useContext, useEffect, useReducer } from 'react'
+import React, { useContext, useEffect, useReducer, useState } from 'react'
 import reducer from '../reducers/products_reducer'
 import {
   SIDEBAR_OPEN,
@@ -40,6 +40,18 @@ export const products_url = 'http://localhost:8000/admin/products'
 export const ProductsProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState)
 
+  const [form, setForm] = useState({
+    name: "",
+    price: "",
+    stock: "",
+    category: "",
+    shipping: false,
+    featured: false,
+    colors: [],
+    description: "",
+    image: null
+  })
+
   const openSidebar = () => {
     dispatch({ type: SIDEBAR_OPEN })
   }
@@ -65,6 +77,19 @@ export const ProductsProvider = ({ children }) => {
 
     axios.get(`http://localhost:8000/admin/product/${productId}`)
     .then(resp => {
+      console.log(resp)
+      const data = resp.data
+      setForm({
+        name: data.title || "",
+        price: data.price || "",
+        stock: resp.data.stock || "",
+        category: resp.data.category || "",
+        shipping: resp.data.shipping || false,
+        featured: data.featured ||false,
+        colors: data.colors || [],
+        description: data.description ||"",
+        image: data.imageUrl || null
+      })
       dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: resp.data })
     }).catch(error => {
       dispatch({ type: GET_SINGLE_PRODUCT_ERROR, payload: error.response.data })
@@ -76,7 +101,7 @@ export const ProductsProvider = ({ children }) => {
 
     axios.post('http://localhost:8000/admin/add-product', formData, {
       headers: {
-        'Content-Type': 'application/form-data'
+        'Content-Type': 'multipart/form-data'
       }
     }).then(resp => {
       dispatch({type: CREATE_SINGLE_PRODUCT_SUCCESS, payload: resp.data})
@@ -90,7 +115,7 @@ export const ProductsProvider = ({ children }) => {
 
     axios.post(`http://localhost:8000/admin/update-product/${productId}`, formData, {
       headers: {
-        'Content-Type': 'application/form-data'
+        'Content-Type': 'multipart/form-data'
       },
     })
     .then(resp => {
@@ -100,15 +125,20 @@ export const ProductsProvider = ({ children }) => {
     })
   }
 
-  const deleteProducts = (productId) => {
-    dispatch({type: DELETE_PRODUCTS_BEGIN})
+  const deleteProducts = async (productId) => {
+    
+    dispatch({ type: DELETE_PRODUCTS_BEGIN })
+    try {
+      const response = await axios.delete(`http://localhost:8000/admin/delete-product/${productId}`)
+      const status = response.data
+      console.log(status)
 
-    axios.delete(`http://localhost:8000/admin/delete-product/${productId}`)
-    .then(resp => {
-      dispatch({ type: DELETE_PRODUCTS_SUCCESS, payload: resp.data })
-    }).catch(error => {
-      dispatch({ type: DELETE_PRODUCTS_ERROR, payload: error.response.data })
-    })
+      dispatch({ type: DELETE_PRODUCTS_SUCCESS, payload: status })
+      await fetchProducts(products_url)
+    } catch (error) {
+      console.log(error)
+      dispatch({ type: DELETE_PRODUCTS_ERROR })
+    }
   }
 
   useEffect(() => {
@@ -119,6 +149,8 @@ export const ProductsProvider = ({ children }) => {
     <ProductsContext.Provider
       value={{
         ...state,
+        form,
+        setForm,
         openSidebar,
         closeSidebar,
         fetchProducts,

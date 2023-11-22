@@ -80,16 +80,37 @@ export const UsersProvider = ({ children }) => {
     })
   }
 
-  const deleteUsers = (userId) => {
-    dispatch({type: DELETE_USERS_BEGIN})
+  // const deleteUsers = (userId) => {
+  //   dispatch({type: DELETE_USERS_BEGIN})
 
-    axios.delete(`http://localhost:8000/admin/delete-user/${userId}`)
-    .then(resp => {
-      dispatch({ type: DELETE_USERS_SUCCESS, payload: resp.data })
-    }).catch(error => {
-      dispatch({ type: DELETE_USERS_ERROR, payload: error.response.data })
-    })
+  //   axios.delete(`http://localhost:8000/admin/delete-user/${userId}`)
+  //   .then(resp => {
+  //     dispatch({ type: DELETE_USERS_SUCCESS, payload: resp.data })
+  //   }).catch(error => {
+  //     dispatch({ type: DELETE_USERS_ERROR, payload: error.response.data })
+  //   })
+  // }
+
+  const deleteUsers = async (userId) => {
+    
+    dispatch({ type: DELETE_PRODUCTS_BEGIN })
+    try {
+      const response = await axios.delete(`http://localhost:8000/admin/delete-product/${productId}`)
+      const status = response.data
+      console.log(status)
+
+      dispatch({ type: DELETE_PRODUCTS_SUCCESS, payload: status })
+      await fetchProducts(products_url)
+    } catch (error) {
+      console.log(error)
+      dispatch({ type: DELETE_PRODUCTS_ERROR })
+    }
   }
+
+  useEffect(() => {
+    fetchUsers(users_url)
+  }, [])
+
 
   return (
     <UsersContext.Provider
@@ -97,7 +118,6 @@ export const UsersProvider = ({ children }) => {
         ...state,
         openSidebar,
         closeSidebar,
-        fetchUsers,
         fetchSingleUser,
         updateUser,
         deleteUsers

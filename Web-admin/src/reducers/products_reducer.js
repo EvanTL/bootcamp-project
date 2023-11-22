@@ -112,20 +112,20 @@ const products_reducer = (state, action) => {
   }
   if (action.type === DELETE_PRODUCTS_BEGIN) {
     return {
-      state,
+      ...state,
       products_loading: true
     }
   }
   if (action.type === DELETE_PRODUCTS_SUCCESS) {
     return {
-      state,
+      ...state,
       products_loading: false,
       update_data: action.payload
     }
   }
   if (action.type === DELETE_PRODUCTS_ERROR) {
     return {
-      state,
+      ...state,
       products_loading: false,
       products_error: true
     }

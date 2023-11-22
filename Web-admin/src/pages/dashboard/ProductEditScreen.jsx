@@ -5,52 +5,63 @@ import {
     Button,
     Typography,
     Textarea,
-    Select,
     Option,
   } from "@material-tailwind/react";
 import { useProductsContext } from "@/context/products_context";
   
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FormControlLabel, MenuItem, Radio, RadioGroup, Select } from "@mui/material";
 
 export function ProductEditScreen() {
   const productId = window.location.pathname.split('/')[3]
-  const { fetchSingleProduct, updateSingleProduct, single_product, update_data } = useProductsContext()
+  const { fetchSingleProduct, updateSingleProduct, single_product, update_data, form,
+    setForm, } = useProductsContext()
   const navigate = useNavigate()
 
   useEffect(() => {
     fetchSingleProduct(productId)
   }, [])
 
-  const {title} = single_product
+  console.log(form)
 
-  const [image, setImage] = useState(null);
-  const [name, setName] = useState(title)
-  const [newPrice, setNewPrice] = useState(single_product.price)
-  const [desc, setDesc] = useState(single_product.description)
-  const [featured, setFeatured] = useState(single_product.featured)
+  const {title} = single_product
+  const [file, setFile] = useState(null)
+
+
     function handleChange(e) {
-      console.log(image)
-      setImage(e.target.files[0]);
+      setForm({
+        ...form,
+        image: e.target.files[0]
+      });
+      setFile(URL.createObjectURL(e.target.files[0]))
+    }
+
+    const handleChangeform = (e) => {
+      setForm({
+        ...form,
+        [e.target.name]: e.target.value
+      })
     }
 
     const handleSubmit = async (e) => {
       e.preventDefault()
       const formData = new FormData()
-      formData.append('image', image)
-      formData.append('newTitle', name)
-      formData.append('newPrice', newPrice)
-      formData.append('newDesc', desc)
-      formData.append('newFeatured', featured)
+      formData.append('newTitle', form.name)
+      formData.append('newPrice', form.price)
+      formData.append('newDesc', form.description)
+      formData.append('newFeatured', form.featured)
+
+      if(form.image){
+        formData.append('image', form.image)
+      }
 
       await updateSingleProduct(formData, productId)
-      if(update_data){
-        alert(update_data.message)
-        if (update_data.status === 200){
-          navigate('/dashboard/products')
-        }
-      }
+      alert(update_data.message)
+      navigate('/dashboard/products')
     }
+
+    console.log(form)
 
     return (
       
@@ -60,29 +71,40 @@ export function ProductEditScreen() {
         </Typography>
         <form onSubmit={handleSubmit} className="mt-8 mb-2 w-80 sm:w-full">
           <div className="mb-4 grid grid-cols-2 gap-6">
-            <div>
-            <Input size="lg" label="Name" value={name} onChange={(e) => {
-              setName(e.target.value)
-            }} />
-            <Select label="Category">
-              <Option>Celana</Option>
-              <Option>Topi</Option>
-              <Option>T-Shirt</Option>
+            <Input size="lg" label="Name" name="name" value={form.name} onChange={handleChangeform} />
+
+            <Select labelId="Category" name="category" className="w-full" value={form.category} onChange={handleChangeform}>
+              <MenuItem value="Celana">Celana</MenuItem>
+              <MenuItem value="Topi">Topi</MenuItem>
+              <MenuItem value="T-Shirt">T-Shirt</MenuItem>
             </Select>
-            <Textarea  size="lg" color="purple" label="Description" value={desc} onChange={(e) => {
-              setDesc(e.target.value)
-            }} />
-            <input type="file" className="mt-2" onChange={handleChange} />
-            <img src={image} className="h-45 w-full rounded-lg object-cover object-center" alt="not found" />
-            </div>
-            <div>
-            <Input size="lg" label="Price" value={newPrice} onChange={(e) => {
-              setNewPrice(e.target.value)
-            }} />
-            <Checkbox size='md' label="featured" value={featured} onChange={(e) => {
-              setFeatured(!featured)
-            }} />
-            </div>
+
+            <Textarea  size="lg" color="purple" name="description" label="Description" value={form.description} onChange={handleChangeform} />
+            <RadioGroup
+              name="featured"
+              value={form.featured}
+              onChange={handleChangeform}>
+                <FormControlLabel
+                value={true}
+                control={<Radio/>}
+                label="True">
+                </FormControlLabel>
+
+                <FormControlLabel
+                value={false}
+                control={<Radio/>}
+                label="False">
+                </FormControlLabel>
+              </RadioGroup>
+              <Input size="lg" label="Price" name="price" value={form.price} onChange={handleChangeform} />
+            <input type="file" name="image" className="mt-2" onChange={handleChange} />
+            <img src={file === null ? `http://localhost:8000/${form.image}` : file} className="h-45 w-full rounded-lg object-cover object-center" alt="not found" />
+            {/* <Checkbox size='md' label="featured" name="featured" value={form.featured} onChange={(e) => {
+              setForm({
+                ...form,
+                featured: !form.featured
+              })
+            }} /> */}
           </div>
           <Button className="mt-6" fullWidth type="submit">
             Update
