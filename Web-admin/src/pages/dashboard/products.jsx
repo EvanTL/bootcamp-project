@@ -72,7 +72,7 @@ export function Products() {
                 color="blue-gray"
                 className="font-normal opacity-70"
               >
-                {record._id}
+                {record.category}
               </Typography>
           </div>
         </div>

@@ -5,48 +5,59 @@ import {
     Button,
     Typography,
     Textarea,
-    Select,
-    Option,
   } from "@material-tailwind/react";
 import { useProductsContext } from "@/context/products_context";
   
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { FormControlLabel, MenuItem, Radio, RadioGroup, Select } from "@mui/material";
 
 export function ProductCreateScreen() {
-  const { update_data, createSingleProduct } = useProductsContext()
+  const { update_data, createSingleProduct, form, setForm } = useProductsContext()
   const navigate = useNavigate()
 
-  const [image, setImage] = useState(null);
-  const [name, setName] = useState("")
-  const [price, setPrice] = useState("")
-  const [desc, setDesc] = useState("")
-  const [category, setCategory] = useState('')
-  const [colors, setColors] = useState('')
-  const [featured, setFeatured] = useState(false)
-    function handleChange(e) {
-      setImage(e.target.files[0]);
-    }
+  const [file, setFile] = useState(null)
+
+
+  function handleChange(e) {
+    setForm({
+      ...form,
+      image: e.target.files[0]
+    });
+    setFile(URL.createObjectURL(e.target.files[0]))
+  }
+
+  const handleChangeform = (e) => {
+    setForm({
+      ...form,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleChangecolor = (e) => {
+    setForm({
+      ...form,
+      colors: e.target.value.split(',')
+    })
+  }
 
     const handleSubmit = async (e) => {
       e.preventDefault()
       const formData = new FormData()
-      formData.append('image', image)
-      formData.append('title', name)
-      formData.append('price', price)
-      formData.append('description', desc)
-      formData.append('colors', colors)
-      formData.append('featured', featured)
+      formData.append('image', form.image)
+      formData.append('title', form.name)
+      formData.append('price', form.price)
+      formData.append('category', form.category)
+      formData.append('description', form.description)
+      formData.append('colors', form.colors)
+      formData.append('featured', form.featured)
       
       await createSingleProduct(formData)
-      console.log(update_data)
-      if(JSON.stringify(update_data) !== "{}"){
-        alert(update_data.message)
-        if (update_data.status === 200){
-          navigate('/dashboard/products')
-        }
-      }
+      alert(update_data.message)
+      navigate('/dashboard/products')
     }
+
+    console.log(form)
 
     return (
       
@@ -56,38 +67,73 @@ export function ProductCreateScreen() {
         </Typography>
         <form onSubmit={handleSubmit} className="mt-8 mb-2 w-80 sm:w-full">
           <div className="mb-4 grid grid-cols-2 gap-6">
+            <Input size="lg" label="Name" name="name" value={form.name} onChange={handleChangeform} />
+
+            <Input size="lg" label="Price" name="price" value={form.price} onChange={handleChangeform} />
+
+            <Input  size="lg" label="Stock" name="stock" value={form.stock} onChange={handleChangeform}/>
+
             <div>
-            <Input size="lg" label="Name" value={name} onChange={(e) => {
-              setName(e.target.value)
-            }} />
-            <Select label="Category" value={category} onChange={(e) => {
-              setCategory(e.target.value)
-              console.log(category)
-            }}>
-              <Option value="Celana">Celana</Option>
-              <Option value="Topi">Topi</Option>
-              <Option value="T-Shirt">T-Shirt</Option>
+              <p className="text-sm">Category</p>
+              <Select labelId="Category" name="category" placeholder="Category" className="w-full" value={form.category} onChange={handleChangeform}>
+              <MenuItem value="Celana">Celana</MenuItem>
+              <MenuItem value="Topi">Topi</MenuItem>
+              <MenuItem value="T-Shirt">T-Shirt</MenuItem>
             </Select>
-            <Textarea  size="lg" color="purple" label="Description" value={desc} onChange={(e) => {
-              setDesc(e.target.value)
-            }} />
-            <input type="file" className="mt-2" onChange={handleChange} />
-            <img src={image} className="h-45 w-full rounded-lg object-cover object-center" alt="not found" />
             </div>
-            <div>
-            <Input size="lg" label="Price" value={price} onChange={(e) => {
-              setPrice(e.target.value)
-            }} />
-            <Input size="lg" label="Colors (hex)" value={colors} onChange={(e) => {
-              setColors(e.target.value)
-            }} />
-            <Checkbox size='md' label="featured" value={featured} onChange={(e) => {
-              setFeatured(!featured)
-            }} />
-            </div>
+
+            <Textarea  size="lg" color="purple" name="description" label="Description" value={form.description} onChange={handleChangeform} />
+
+            <Input size="lg" label="Colors(on hex, comma separate)" name="colors" value={form.colors} onChange={handleChangecolor} />
+            <RadioGroup
+              name="featured"
+              value={form.featured}
+              onChange={handleChangeform}>
+                <div className="w-[200px]">
+                  <p>Featured</p>
+                <div className="grid grid-cols-2">
+                <FormControlLabel
+                value={true}
+                control={<Radio/>}
+                label="True">
+                </FormControlLabel>
+
+                <FormControlLabel
+                value={false}
+                control={<Radio/>}
+                label="False">
+                </FormControlLabel>
+                </div>
+                </div>
+              </RadioGroup>
+              <RadioGroup
+              name="shipping"
+              value={form.shipping}
+              onChange={handleChangeform}>
+                <div className="w-[200px]">
+                  <p>Shipping</p>
+                <div className="grid grid-cols-2">
+                <FormControlLabel
+                value={true}
+                control={<Radio/>}
+                label="True">
+                </FormControlLabel>
+
+                <FormControlLabel
+                value={false}
+                control={<Radio/>}
+                label="False">
+                </FormControlLabel>
+                </div>
+                </div>
+              </RadioGroup>
           </div>
+          <div className="grid grid-cols-2">
+              <input type="file" name="image" className="mt-2" onChange={handleChange} />
+              <img src={file} className="h-45 w-full rounded-lg object-cover object-center" alt="not found" />
+            </div>
           <Button className="mt-6" fullWidth type="submit">
-            Create Product
+            Create
           </Button>
         </form>
       </Card>

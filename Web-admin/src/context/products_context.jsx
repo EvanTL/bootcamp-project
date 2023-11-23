@@ -82,10 +82,10 @@ export const ProductsProvider = ({ children }) => {
       setForm({
         name: data.title || "",
         price: data.price || "",
-        stock: resp.data.stock || "",
-        category: resp.data.category || "",
-        shipping: resp.data.shipping || false,
-        featured: data.featured ||false,
+        stock: data.stock || 0,
+        category: data.category || "",
+        shipping: data.shipping || "false",
+        featured: data.featured ||"false",
         colors: data.colors || [],
         description: data.description ||"",
         image: data.imageUrl || null
@@ -105,6 +105,7 @@ export const ProductsProvider = ({ children }) => {
       }
     }).then(resp => {
       dispatch({type: CREATE_SINGLE_PRODUCT_SUCCESS, payload: resp.data})
+      fetchProducts(products_url)
     }).catch(error => {
       dispatch({ type: CREATE_SINGLE_PRODUCT_ERROR, payload: error.response.data })
     })
@@ -120,6 +121,7 @@ export const ProductsProvider = ({ children }) => {
     })
     .then(resp => {
       dispatch({type: UPDATE_SINGLE_PRODUCT_SUCCESS, payload: resp.data})
+      fetchProducts(products_url)
     }).catch(error => {
       dispatch({ type: UPDATE_SINGLE_PRODUCT_ERROR, payload: error.response.data })
     })

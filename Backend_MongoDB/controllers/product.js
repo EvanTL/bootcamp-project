@@ -9,12 +9,9 @@ exports.postAddProduct = (req,res,next) => {
         price,
         description,
         colors,
+        category,
         featured
     } = req.body
-    //const imageUrl = req.body.imageUrl {This imageURL is no longer used}
-    // const price = req.body.price
-    // const desc = req.body.description
-    // const colors = req.body.colors
 
     const errors = validationResult(req)
     if(!errors.isEmpty()){
@@ -37,9 +34,9 @@ exports.postAddProduct = (req,res,next) => {
         price: price,
         description: description,
         imageUrl: imageUrl,
+        category: category,
         colors: colors,
         featured: featured
-        // userId: req.userId
     })
 
     product.save()
@@ -61,12 +58,16 @@ exports.postAddProduct = (req,res,next) => {
 
 exports.updateProduct = (req, res, next) => {
     const productId = req.params.productId
-    const newTitle = req.body.newTitle
-    const newDesc = req.body.newDesc
-    const newPrice = req.body.newPrice
-    //const newColors = req.body.newColors
+    const {
+        newTitle,
+        newPrice,
+        newCategory,
+        newColors,
+        newDesc,
+        newFeatured,
+        newShipping
+    } = req.body
     const image = req.file ? req.file.path.replace('\\', '/') : null
-    const newFeatured = req.body.newFeatured
 
 
     const errors = validationResult(req)
@@ -87,7 +88,7 @@ exports.updateProduct = (req, res, next) => {
         product.title = newTitle,
         product.price = newPrice,
         product.description = newDesc,
-        //product.colors = newColors,
+        product.colors = newColors,
         product.featured = newFeatured
 
         if(image){
@@ -113,7 +114,6 @@ exports.updateProduct = (req, res, next) => {
 
 exports.getProducts = (req, res, next) => {
     Product.find()
-    .select('title price colors featured imageUrl _id')
     .populate('userId', 'name')
     .then(products => {
         res.json(products)
