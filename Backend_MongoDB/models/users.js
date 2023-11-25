@@ -43,7 +43,7 @@ const usersSchema = new Schema(
 { timestamps: true }
 )
 
-usersSchema.methods.addToCart = function (product) {
+usersSchema.methods.addtoCart = function(product, inputqty) {
     const cartProductIndex = this.cart.items.findIndex((cp) => {
       return cp.productId.toString() === product._id.toString();
     });
