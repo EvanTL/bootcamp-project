@@ -18,6 +18,21 @@ exports.getUser = (req, res, next) => {
     })
 }
 
+exports.getUserShop = (req, res, next) => {
+    const userId = req.userId
+
+    Users.findById(userId)
+    .select('name email role createdAt _id')
+    .then(user => {
+        res.json(user)
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
+}
+
 exports.getUsers = (req, res, next) => {
 
     Users.find()
