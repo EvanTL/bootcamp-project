@@ -4,8 +4,10 @@ const productsController = require('../controllers/product')
 const shopController = require('../controllers/shop')
 const isAuth = require('../middleware/is-auth')
 
+
+router.get('/products', productsController.getProducts)
 router.get('/products/search', productsController.getProductsbyFilter)
-router.get('/product/:productId', isAuth, productsController.getProductsbyId)
+router.get('/product/:productId', productsController.getProductsbyId)
 router.get('/categories', shopController.getCategories)
 router.post('/cart/add-product', shopController.postCart)
 router.get('/cart', shopController.getCart)
