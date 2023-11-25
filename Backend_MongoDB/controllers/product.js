@@ -8,6 +8,7 @@ exports.postAddProduct = (req,res,next) => {
         title,
         price,
         description,
+        stock,
         colors,
         category,
         featured
@@ -36,6 +37,7 @@ exports.postAddProduct = (req,res,next) => {
         imageUrl: imageUrl,
         category: category,
         colors: colors,
+        stock: stock,
         featured: featured
     })
 
@@ -63,6 +65,7 @@ exports.updateProduct = (req, res, next) => {
         newPrice,
         newCategory,
         newColors,
+        newStock,
         newDesc,
         newFeatured,
         newShipping
@@ -87,9 +90,12 @@ exports.updateProduct = (req, res, next) => {
 
         product.title = newTitle,
         product.price = newPrice,
+        product.category = newCategory,
         product.description = newDesc,
+        product.stock = newStock,
         product.colors = newColors,
-        product.featured = newFeatured
+        product.featured = newFeatured,
+        product.shipping = newShipping
 
         if(image){
             product.imageUrl = image
@@ -174,7 +180,6 @@ exports.getProductsbyUser = (req, res, next) => {
 
 exports.getProductsbyId = (req, res, next) => {
     Product.findById(req.params.productId)
-    .select('-_id')
     .populate('userId', 'name')
     .then(products => {
         res.json(products)
