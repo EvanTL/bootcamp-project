@@ -26,7 +26,7 @@ const productSchema = new Schema(
             required: true
         },
         colors: {
-            type: String,
+            type: [String],
             required: true
         },
         userId: {
@@ -51,7 +51,7 @@ const productSchema = new Schema(
             required: false
         },
         shipping: {
-            type: Number,
+            type: Boolean,
             required: false
         },
     }
