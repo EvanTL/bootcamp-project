@@ -78,7 +78,11 @@ exports.login = (req, res, next) => {
         res.status(200).json({
             token: token,
             message: "Login success",
-            userId: loadedUser._id.toString()
+            userId: loadedUser._id.toString(),
+            userdata: {
+                name: loadedUser.name,
+                email: loadedUser.email
+            }
         })
     }).catch(err => {
         console.log(err)
