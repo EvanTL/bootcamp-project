@@ -2,7 +2,8 @@ import axios from 'axios'
 import React, { useContext, useReducer } from 'react'
 import reducer from '../reducers/auth_reducer'
 import {
-
+  SIDEBAR_OPEN,
+  SIDEBAR_CLOSE
 } from '../components/actions'
 
 let userId = localStorage.getItem("userInfo")
@@ -63,7 +64,7 @@ const logout = () => {
 };
 
   return (
-    <AuthContext
+    <AuthContext.Provider
     value={{
       ...state,
       openSidebar,
@@ -72,7 +73,7 @@ const logout = () => {
       logout
     }}>
       {children}
-    </AuthContext>
+    </AuthContext.Provider>
   )
 }
 // make sure use

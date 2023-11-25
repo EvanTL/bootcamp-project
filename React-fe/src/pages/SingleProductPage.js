@@ -16,12 +16,12 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import ProductReviews from '../components/ProductReviews';
 const SingleProductPage = () => {
-  const { id } = useParams();
+  const { productId } = useParams();
   const navigate = useNavigate();
   const {
     single_product_loading: loading,
     single_product_error: error,
-    single_product: product,
+    single_product,
     fetchSingleProduct,
     reviews_loading,
     reviews_error,
@@ -30,10 +30,10 @@ const SingleProductPage = () => {
   } = useProductsContext();
 
   useEffect(() => {
-    fetchSingleProduct(`${url}${id}`);
-    fetchReviews(`${reviews_url}?product_id=${id}`);
+    fetchSingleProduct(productId);
+    fetchReviews(`${reviews_url}?product_id=${productId}`);
     // eslint-disable-next-line
-  }, [id]);
+  }, [productId]);
   
   useEffect(() => {
     if (error) {
@@ -51,28 +51,30 @@ const SingleProductPage = () => {
   }
 
   const {
-    name,
+    title,
     price,
     description,
     stock,
     stars,
-    id: sku,
+    _id: sku,
     company,
-    images,
-    image,
-  } = product;
+    imageUrl,
+    image =  `http://localhost:8000/${imageUrl}`,
+  } = single_product;
   return (
     <div className='mt-20'>
-    <PageHero title={name} product='products'/>
+    <PageHero title={title} product='products'/>
     <div className='pt-[5rem] mx-[174px]'>
       <div className='lg:grid lg:grid-cols-2 gap-5'>
         <section>
         <Link to='/products' className='w-fit float-left m-auto text-center bg-[#676767] text-white rounded-[var(--radius)]
         text-[0.875rem] px-3 py-[6px] mb-2 uppercase hover:opacity-50 transition-[var(--transition)]'>Back to Products</Link>
-          <ProductImages images={images} />
+          {/* <ProductImages images={images} /> */}
+
+        <img src={image} className='mt-20'/>
         </section>
         <section className='description mt-[35px]'>
-          <h2 className='text-[#071952] mb-3'>{name}</h2>
+          <h2 className='text-[#071952] mb-3'>{title}</h2>
           <Stars stars={stars}/>
           <p className='mb-2'>{reviews.length} customer {reviews.length > 1 ? <>reviews</> : <>review</>}</p>
           <h5 className='text-[var(--clr-grey-5)]'>{formatPrice(price)}</h5>
@@ -81,7 +83,7 @@ const SingleProductPage = () => {
           <p><span className='font-semibold'>ID: </span>{sku}</p>
           <p><span className='font-semibold'>Brand: </span>{company}</p>
           <hr/>
-          {stock > 0 && <AddToCart product={product}/>}
+          {stock > 0 && <AddToCart product={single_product}/>}
         </section>
       </div>
       <ProductReviews reviews={reviews} loading={reviews_loading} error={reviews_error}/>

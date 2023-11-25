@@ -15,7 +15,7 @@ let token = localStorage.getItem("userInfo")
  
 
 const initialState = {
-  user: userId,
+  user: {},
   token: token,
   loading: false,
   error: ""

@@ -9,7 +9,7 @@ const CartItems = () => {
   const { cart, clearCart } = useCartContext()
 
   return (
-    <div className='mx-auto w-10/12'>
+    <div className='mx-auto mt-5 w-10/12'>
       <div>
         <CartColumns/>
         <hr/>

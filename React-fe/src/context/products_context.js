@@ -65,10 +65,11 @@ export const ProductsProvider = ({ children }) => {
     }
   }
 
-  const fetchSingleProduct = async (url) => {
+  const fetchSingleProduct = async (productId) => {
     dispatch({ type: GET_SINGLE_PRODUCT_BEGIN })
     try {
-      const response = await axios.get(url)
+      const response = await axios.get(`http://localhost:8000/shop/product/${productId}`)
+      console.log(response)
       const singleProduct = response.data
       dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: singleProduct })
     } catch (error) {

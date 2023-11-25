@@ -48,9 +48,15 @@ export function ProductCreateScreen() {
       formData.append('title', form.name)
       formData.append('price', form.price)
       formData.append('category', form.category)
+      formData.append('stock', form.stock)
       formData.append('description', form.description)
-      formData.append('colors', form.colors)
       formData.append('featured', form.featured)
+
+      if(form.colors){
+        form.colors.map(color => {
+          return formData.append('colors', color)
+        })
+      }
       
       await createSingleProduct(formData)
       alert(update_data.message)
@@ -79,7 +85,7 @@ export function ProductCreateScreen() {
               <MenuItem value="Celana">Celana</MenuItem>
               <MenuItem value="Topi">Topi</MenuItem>
               <MenuItem value="T-Shirt">T-Shirt</MenuItem>
-            </Select>
+              </Select>
             </div>
 
             <Textarea  size="lg" color="purple" name="description" label="Description" value={form.description} onChange={handleChangeform} />

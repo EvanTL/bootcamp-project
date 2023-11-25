@@ -9,7 +9,7 @@ import './addtocart.css'
 const AddToCart = ({ product }) => {
   // add to cart
   const { addToCart } = useCartContext()
-  const { id, stock, colors } = product
+  const { _id, stock, colors, imageUrl } = product
   const [mainColor, setMainColor] = useState(colors[0])
   const [amount, setAmount] = useState(1)
 
@@ -65,7 +65,7 @@ const AddToCart = ({ product }) => {
         <Link
           to='/cart'
           className='btn'
-          onClick={() => addToCart(id, mainColor, amount, product)}
+          onClick={() => addToCart(_id, mainColor, amount, product)}
         >
           add to cart
         </Link>

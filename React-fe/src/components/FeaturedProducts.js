@@ -6,6 +6,7 @@ import Error from './Error'
 import Loading from './Loading'
 import Product from './Product'
 import "./featured.css";
+import { products_url } from '../utils/constants'
 
 const FeaturedProducts = () => {
   const {products_loading, products_error, featured_products} = useProductsContext()
@@ -19,18 +20,21 @@ const FeaturedProducts = () => {
   if(products_error){
     return <Error/>
   }
-  
+
   //return featured products
   return (
     <div className='section-featured mt-4'>
-      <h2 className='text-[#071952] font-semibold text-center pt-3'>Featured Products</h2>
+      <div className='grid grid-cols-2'>
+        <h2 className='text-[#071952] font-semibold text-center pt-3'>Featured Products</h2>
+        <Link to='/products' className='btn'>Browse all Products</Link>
+      </div>
       <div className='featured grid-cols-2 md:grid-cols-3'>
       {featured_products && featured_products.map(item => {
-        const {name, image, id, price, stars, company} = item
-        return <Product key={id} name={name} image={image} id={id} price={price} stars={stars} company={company} />
+        console.log(item)
+        const {_id} = item
+        return <Product key={_id} {...item}/>
       })}
       </div>
-      <Link to='/products' className='btn'>Browse all Products</Link>
     </div>
   )
 }

@@ -33,13 +33,22 @@ function App() {
           <Route path='logout' element={<Logout/>} />
           <Route path='signup' element={<Signup/>} />
           <Route path='products' element={<Products/>} />
-          <Route path='checkout/*' element={<Checkout/>}>
-              <Route path="" element={<DeliveryAddress/>}/>
-              <Route path="pay" element={<PaymentMethod/>}/>
-              <Route path="revieworder" element={<ReviewOrder/>}/>
+          <Route path='cart'
+          element={<PrivateRoute>
+                  <Cart/>
+                  </PrivateRoute>}
+          />
+                                
+          <Route path='checkout/*'
+          element={<PrivateRoute>
+                  <Checkout/>
+                  </PrivateRoute>}
+          >
+            <Route path="" element={<DeliveryAddress/>}/>
+            <Route path="pay" element={<PaymentMethod/>}/>
+            <Route path="revieworder" element={<ReviewOrder/>}/>
           </Route>
-          <Route path='products/:id' element={<SingleProductPage/>} />
-          <Route path='cart' element={<Cart/>} />
+          <Route path='products/:productId' element={<SingleProductPage/>} />
           {/* 
           TODO :
           Route to 

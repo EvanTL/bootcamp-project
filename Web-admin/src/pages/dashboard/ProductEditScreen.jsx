@@ -57,10 +57,16 @@ export function ProductEditScreen() {
       formData.append('newTitle', form.name)
       formData.append('newPrice', form.price)
       formData.append('newCategory', form.category)
-      formData.append('newColors', form.colors)
+      formData.append('newStock', form.stock)
       formData.append('newDesc', form.description)
       formData.append('newFeatured', form.featured)
       formData.append('newShipping', form.shipping)
+
+      if(form.colors){
+        form.colors.map(color => {
+          return formData.append('newColors', color)
+        })
+      }
 
       if(form.image){
         formData.append('image', form.image)
@@ -83,8 +89,12 @@ export function ProductEditScreen() {
           <div className="mb-4 grid grid-cols-2 gap-6">
             <Input size="lg" label="Name" name="name" value={form.name} onChange={handleChangeform} />
 
+            <Input size="lg" label="Price" name="price" value={form.price} onChange={handleChangeform} />
+
+            <Input  size="lg" label="Stock" name="stock" value={form.stock} onChange={handleChangeform}/>
+
             <div>
-              <p>Category</p>
+              <p className="text-sm">Category</p>
               <Select labelId="Category" name="category" placeholder="Category" className="w-full" value={form.category} onChange={handleChangeform}>
               <MenuItem value="Celana">Celana</MenuItem>
               <MenuItem value="Topi">Topi</MenuItem>
@@ -93,8 +103,6 @@ export function ProductEditScreen() {
             </div>
 
             <Textarea  size="lg" color="purple" name="description" label="Description" value={form.description} onChange={handleChangeform} />
-
-            <Input size="lg" label="Price" name="price" value={form.price} onChange={handleChangeform} />
 
             <Input size="lg" label="Colors(on hex, comma separate)" name="colors" value={form.colors} onChange={handleChangecolor} />
             <RadioGroup
@@ -145,7 +153,7 @@ export function ProductEditScreen() {
               <img src={file === null ? `http://localhost:8000/${form.image}` : file} className="h-45 w-full rounded-lg object-cover object-center" alt="not found" />
             </div>
           <Button className="mt-6" fullWidth type="submit">
-            Create
+            Update
           </Button>
         </form>
       </Card>

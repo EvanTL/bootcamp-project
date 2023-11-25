@@ -18,11 +18,13 @@ import { MaterialTailwindControllerProvider } from "@/context";
 import { ProductsProvider } from "./context/products_context";
 import "../public/css/tailwind.css";
 import { UsersProvider } from "./context/user_context";
+import { AuthProvider } from "./context/auth_context";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
       <ThemeProvider>
+        <AuthProvider>
         <MaterialTailwindControllerProvider>
           <ProductsProvider>
             <UsersProvider>
@@ -30,6 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </UsersProvider>
           </ProductsProvider>
         </MaterialTailwindControllerProvider>
+        </AuthProvider>
       </ThemeProvider>
     </BrowserRouter>
   </React.StrictMode>

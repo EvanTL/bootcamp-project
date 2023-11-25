@@ -11,6 +11,7 @@ const user_reducer = (state, action) => {
             ...state,
             userId: action.payload.userId,
             token: action.payload.token,
+            user: action.payload.userdata,
             loading: false,
             error: ''
         }

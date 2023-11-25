@@ -1,15 +1,28 @@
 import React from "react";
 import { FaLocationArrow, FaTruck, FaUserAlt } from "react-icons/fa";
 import { useCartContext } from '../context/cart_context'
+import { useOrderContext } from "../context/order_context";
 import { formatPrice } from "../utils/helpers";
+import Loading from "./Loading";
 
 const ReviewOrder = () => {
 
     const data = JSON.parse(localStorage.getItem('delivery'))
     const cart = JSON.parse(localStorage.getItem('cart'))
+    const { user, token } = JSON.parse(localStorage.getItem('userInfo'))
     const selectedmethod = localStorage.getItem('payment')
     const { total_amount, shipping_fee } = useCartContext()
+    const { createOrder, orderState } = useOrderContext()
     const tax = (total_amount + shipping_fee) * 0.11
+    console.log(cart)
+
+    async function handleOrder() {
+        await createOrder(cart, token)
+    }
+
+    if (orderState.loading) {
+        return <Loading/>
+    }
 
     return(
         <div className="w-full mx-10">
@@ -19,6 +32,8 @@ const ReviewOrder = () => {
                     <FaUserAlt className="w-[3rem] h-[3rem] mx-auto"/>
                     <div>
                         <h4 className="font-semibold">Customer</h4>
+                        <p className="font-semibold">Name: {user.name}</p>
+                        <span className="font-semibold">Email: {user.email}</span>
                     </div>
                 </div>
                 <div className="grid grid-cols-2">
@@ -45,7 +60,7 @@ const ReviewOrder = () => {
                         {cart && cart.map(item => {
                         return(
                         <>
-                            <img src={item.image} className="col-start-1 rounded-lg w-[131px] h-fit mx-auto py-1"/>
+                            <img src={`http://localhost:8000/${item.image}`} className="col-start-1 rounded-lg w-[131px] h-fit mx-auto py-1"/>
                             <div className="col-start-2 border-l-2 border-black pl-5">
                                 <p>{item.name}</p>
                                 <p>Color: <div style={{background: item.color}} className='w-[0.7rem] h-[0.7rem] inline-block rounded-full'/></p>
@@ -76,7 +91,7 @@ const ReviewOrder = () => {
                         <p className="mb-3">{formatPrice(total_amount + shipping_fee + tax)}</p>
                     </>
                     </div>
-                    <button className="btn col-start-3">Place Order</button>
+                    <button onClick={handleOrder} className="btn col-start-3">Place Order</button>
                 </div>
             </div>
         </div>

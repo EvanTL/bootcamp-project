@@ -93,17 +93,17 @@ export const UsersProvider = ({ children }) => {
 
   const deleteUsers = async (userId) => {
     
-    dispatch({ type: DELETE_PRODUCTS_BEGIN })
+    dispatch({ type: DELETE_USERS_BEGIN })
     try {
-      const response = await axios.delete(`http://localhost:8000/admin/delete-product/${productId}`)
+      const response = await axios.delete(`http://localhost:8000/admin/delete-user/${userId}`)
       const status = response.data
       console.log(status)
 
-      dispatch({ type: DELETE_PRODUCTS_SUCCESS, payload: status })
-      await fetchProducts(products_url)
+      dispatch({ type: DELETE_USERS_SUCCESS, payload: status })
+      await fetchUsers(users_url)
     } catch (error) {
       console.log(error)
-      dispatch({ type: DELETE_PRODUCTS_ERROR })
+      dispatch({ type: DELETE_USERS_ERROR })
     }
   }
 

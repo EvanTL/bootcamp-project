@@ -16,11 +16,11 @@ export const links = [
     text: 'products',
     url: '/products',
   },
-  // {
-  //   id: 4,
-  //   text: 'Contact',
-  //   url: '/contact',
-  // },
+  {
+   id: 4,
+   text: 'Contact',
+   url: '/contact',
+  },
 ]
 
 export const services = [
@@ -71,10 +71,10 @@ export const services_id = [
   },
 ]
 
-export const products_url = 'https://63cdf885d2e8c29a9bced636.mockapi.io/api/v1/products'
+export const products_url = 'http://localhost:8000/shop/products'
 //'https://course-api.com/react-store-products'
 
-export const single_product_url = 'https://63cdf885d2e8c29a9bced636.mockapi.io/api/v1/products/'
+export const single_product_url = 'http://localhost:8000/shop/product/'
 //`https://course-api.com/react-store-single-product?id=`
 
 export const product_reviews = 'https://63cdf885d2e8c29a9bced636.mockapi.io/api/v1/reviews'
