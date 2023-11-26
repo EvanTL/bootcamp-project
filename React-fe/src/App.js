@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import { Navbar, Sidebar, Footer } from './components'
+import { Navbar, Sidebar, Footer, Contact } from './components'
 import {
   Home,
   SingleProduct,
@@ -20,6 +20,8 @@ import PaymentMethod from './components/PaymentMethod'
 import ReviewOrder from './components/ReviewOrder'
 import Logout from './pages/Logout'
 import Signup from './pages/Signup'
+import OrderList from './components/OrderList'
+import OrderDetail from './components/OrderDetail'
 function App() {
   return (
     <AuthWrapper>
@@ -33,6 +35,7 @@ function App() {
           <Route path='logout' element={<Logout/>} />
           <Route path='signup' element={<Signup/>} />
           <Route path='products' element={<Products/>} />
+          <Route path='contact' element={<Contact/>}/>
           <Route path='cart'
           element={<PrivateRoute>
                   <Cart/>
@@ -48,6 +51,14 @@ function App() {
             <Route path="pay" element={<PaymentMethod/>}/>
             <Route path="revieworder" element={<ReviewOrder/>}/>
           </Route>
+          <Route path='orders' 
+          element={<PrivateRoute>
+                   <OrderList/>
+                   </PrivateRoute>}/>
+          <Route path='orders/:orderId'
+          element={<PrivateRoute>
+                   <OrderDetail/>
+                   </PrivateRoute>}/>
           <Route path='products/:productId' element={<SingleProductPage/>} />
           {/* 
           TODO :
