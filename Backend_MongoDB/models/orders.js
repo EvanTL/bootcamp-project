@@ -6,13 +6,13 @@ const OrderSchema = new Schema( {
         type: Schema.Types.ObjectId,
         ref: "Users"
     },
-    userData: {
+    userData: [{
         name: {
             type: String
         },
         email: {type: String},
         payment: {type: String}
-    },
+    }],
     items: [
         {
             productId: {
@@ -30,17 +30,19 @@ const OrderSchema = new Schema( {
             image: {type: String}
         }
     ],
-    totalpay: {
+    totalpay: [{
         subtotal: {type: Number},
         shipping: {type: Number},
         tax: {type: Number},
-    },
-    delivery: {
+    }],
+    delivery: [{
         address: {type: String},
         city: {type: String},
         postal_code: {type: String},
         country: {type: String}
-    }
-});
+    }]
+},
+{ timestamps: true }
+);
 
 module.exports = mongoose.model("Orders", OrderSchema)

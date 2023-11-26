@@ -12,6 +12,8 @@ import { Users } from "./pages/dashboard/users";
 import { ProductEditScreen } from "./pages/dashboard/ProductEditScreen";
 import { ProductCreateScreen } from "./pages/dashboard/ProductCreateScreen";
 import { UserEditScreen } from "./pages/dashboard/UserEditScreen";
+import { Orders } from "./pages/dashboard/orders";
+import { OrderdetailScreen } from "./pages/dashboard/OrderDetailScreen";
 
 const icon = {
   className: "w-5 h-5 text-inherit",
@@ -64,11 +66,17 @@ export const routes = [
         element: <UserEditScreen/>,
       },
       {
-        icon: <BellIcon {...icon} />,
-        name: "notifactions",
-        path: "/notifactions",
-        element: <Notifications />,
+        icon: <TableCellsIcon {...icon} />,
+        name: "Orders",
+        path: "/orders",
+        element: <Orders/>,
       },
+      {
+        icon: <TableCellsIcon {...icon} />,
+        name: "Order Detail",
+        path: "/order/*",
+        element: <OrderdetailScreen/>,
+      }
     ],
   },
   {

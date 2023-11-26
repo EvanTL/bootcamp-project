@@ -4,6 +4,7 @@ const express = require('express') //Required for router
 const router = express.Router()
 const productsController = require('../controllers/product')
 const userController = require('../controllers/users')
+const shopController = require('../controllers/shop')
 const { body, param } = require('express-validator')
 const isAuth = require('../middleware/is-auth')
 const Products = require('../models/products')
@@ -53,11 +54,16 @@ router.post('/update-user/:userId',
 //Delete Users
 router.delete('/delete-user/:userId', userController.deleteUser)
 
+//Final Project Routing: Orders
+router.get('/orders', shopController.getOrders) //getOrders
+
+router.get('/order/:orderId', shopController.adminSingleOrder)
+
 //Raw queries
 
 // router.post('/raw-products', rawQuery)
 
 // router.get('/edit-user-product/:productId', productsController.getEditUserProduct)
-router.get('/user-details/:userId', isAuth, adminAuth, productsController.getProductsbyUser)
+//router.get('/user-details/:userId', isAuth, adminAuth, productsController.getProductsbyUser)
 
 module.exports = router

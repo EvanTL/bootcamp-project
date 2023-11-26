@@ -31,6 +31,19 @@ exports.createOrder = (req, res, next) => {
     })
 }
 
+exports.getOrders = (req, res, next) => {
+
+    Order.find()
+    .then(orders => {
+        res.json(orders)
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
+}
+
 exports.getOrdersbyUser = (req, res, next) => {
     const userId = req.userId
 
@@ -57,6 +70,20 @@ exports.getSingleOrder = (req, res, next) => {
             error.statusCode = 403
             throw error
         }
+        res.json(order)
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
+}
+
+exports.adminSingleOrder = (req, res, next) => {
+    const orderId = req.params.orderId
+
+    Order.findById(orderId)
+    .then(order => {
         res.json(order)
     }).catch(err => {
         if(!err.statusCode){

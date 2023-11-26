@@ -4,7 +4,6 @@ import PageHero from "./PageHero";
 const Contact = () => {
   return (
     <div className="mt-20">
-    <PageHero title="Contact us"/>
     <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-16 mt-24 mb-24 border-2 rounded-lg mx-14 border-black 2xl:mx-auto">
       <div className="grid md:grid-cols-2 gap-8">
         <div className="max-w-md">

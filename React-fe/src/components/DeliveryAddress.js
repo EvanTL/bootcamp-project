@@ -11,12 +11,12 @@ const DeliveryAddress = () =>{
 
     const formHandler = () => (e) => {
           e.preventDefault()
-          const DeliveryData = {
+          const DeliveryData = [{
             address: setAddress.current.value,
             city: setCity.current.value,
             postal_code: setPostal.current.value,
             country: setCountry.current.value
-        }
+        }]
           localStorage.setItem('delivery', JSON.stringify(DeliveryData))
           navigate('pay')
         }

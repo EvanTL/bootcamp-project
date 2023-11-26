@@ -18,11 +18,11 @@ const ReviewOrder = () => {
     const navigate = useNavigate()
 
     async function handleOrder() {
-        const totalpay = {
+        const totalpay = [{
             subtotal: total_amount,
             shipping: shipping_fee,
             tax: tax
-        }
+        }]
         await createOrder(cart, token, deliveryData, user, selectedmethod, totalpay)
         alert(orderState.data)
         navigate('/orders')

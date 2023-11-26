@@ -1,39 +1,122 @@
-import React, { useEffect } from "react";
-import { FaLocationArrow, FaTruck, FaUserAlt } from "react-icons/fa";
-import { useCartContext } from '../context/cart_context'
-import { useOrderContext } from "../context/order_context";
-import { formatPrice } from "../utils/helpers";
-import Loading from "./Loading";
-import { useNavigate, useParams } from "react-router-dom";
+import DataTable from 'react-data-table-component';
+import React, { useEffect } from 'react';
+import { useOrdersContext } from '@/context/order_context';
+import {
+    MagnifyingGlassIcon,
+    ChevronUpDownIcon,
+  } from "@heroicons/react/24/outline";
+  import { PencilIcon, UserPlusIcon, TrashIcon } from "@heroicons/react/24/solid";
+  import {
+    Card,
+    CardHeader,
+    Input,
+    Typography,
+    Button,
+    CardBody,
+    Chip,
+    CardFooter,
+    Tabs,
+    TabsHeader,
+    Tab,
+    Avatar,
+    IconButton,
+    Tooltip,
+    Alert,
+  } from "@material-tailwind/react";
+import { useNavigate } from 'react-router-dom';
 
-const OrderDetail = () => {
-    const { getSingleOrder, orderState } = useOrderContext()
-    const { orderId } = useParams();
+  const showAlerts = {
+    "blue": true,
+    "green": true,
+    "orange": true,
+    "red": true,
+  };
+   
+  const TABS = [
+    {
+      label: "All",
+      value: "all",
+    },
+    {
+      label: "Monitored",
+      value: "monitored",
+    },
+    {
+      label: "Unmonitored",
+      value: "unmonitored",
+    },
+  ];
+   
+
+  export function OrderdetailScreen() {
+
+    const orderId = window.location.pathname.split('/')[3]
+    const {single_order, loading, getSingleOrder} = useOrdersContext()
     const navigate = useNavigate()
-    const { token } = JSON.parse(localStorage.getItem('userInfo'))
-    const {single_order, loading} = orderState
 
     useEffect(() => {
-        getSingleOrder(orderId, token)
+      getSingleOrder(orderId)
     }, [orderId])
 
     const {items, delivery, userData, totalpay} = single_order
-    console.log(userData)
+
+    const TABLE_HEAD = [
+      {
+        name: 'Name',
+        selector: row => row.name,
+        cell : (record) => (
+          <div className="flex items-center gap-3">
+            <div className="flex flex-col">
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal"
+              >
+                {record.userData.name}
+              </Typography>
+              <Typography
+                variant="small"
+                color="blue-gray"
+                className="font-normal opacity-70"
+              >
+                {record.userData.email}
+              </Typography>
+            </div>
+          </div>
+        )
+      },
+      {
+        name: 'Order ID',
+        selector: row => row._id,
+      },
+      {
+        name: 'Date',
+        selector: row => {
+          const date = new Date(row.createdAt)
+          return date.toLocaleDateString('en-US')
+        },
+      },
+    ];
 
     if (loading) {
-        return <Loading/>
+      return <h1>Fetching...</h1>
     }
-
+    
+    
     if (!loading) {
-        return(
-            <div className="w-full mt-20">
-                <h2 className="font-semibold text-center">Order Detail: {single_order._id}</h2>
-                <div className="grid grid-cols-3 gap-4 bg-blue-300 rounded-lg p-5 mt-5 mb-[5rem]">
+      return (
+        <div className="mt-12 mb-8 flex flex-col gap-12">
+          <Card className="h-full w-full">
+            <CardHeader variant="gradient" color="blue" className="mb-8 p-6">
+              <Typography variant="h6" color="white">
+                Order Detail
+              </Typography>
+            </CardHeader>
+            <div className="grid grid-cols-3 gap-4 rounded-lg p-5 mt-5 mb-[5rem]">
                     <div className="grid grid-cols-2">
                         {userData && userData.map(data => {
                             return(
                             <>
-                            <FaUserAlt className="w-[3rem] h-[3rem] mx-auto"/>
                             <div>
                                 <h4 className="font-semibold">Customer</h4>
                                 <p className="font-semibold">Name: {data.name}</p>
@@ -48,14 +131,12 @@ const OrderDetail = () => {
                         return(
                         <>
                         <div className="grid grid-cols-2">
-                        <FaTruck className="w-[3rem] h-[3rem] mx-auto"/>
                         <div>
                             <h4 className="font-semibold">Shipping info</h4>
                             <p className="font-semibold">Shipping: {data.country}</p>
                         </div>
                     </div>
                     <div className="grid grid-cols-2">
-                        <FaLocationArrow className="w-[3rem] h-[3rem] mx-auto"/>
                         <div>
                             <h4 className="font-semibold">Delivery Address</h4>
                             <p className="font-semibold">{data.address}, {data.city}</p>
@@ -79,7 +160,7 @@ const OrderDetail = () => {
                                     <p>Color: <div style={{background: item.color}} className='w-[0.7rem] h-[0.7rem] inline-block rounded-full'/></p>
                                 </div>
                                 <p className="col-start-3 text-center border-l-2 border-black">{item.amount}</p>
-                                <p className="col-start-4 text-center border-l-2 border-black">{formatPrice(item.price * item.amount)}</p>
+                                <p className="col-start-4 text-center border-l-2 border-black">{item.price * item.amount}</p>
                             </>
                             )
                         })}
@@ -92,30 +173,29 @@ const OrderDetail = () => {
                                                         <div className="bg-slate-200 p-2 grid grid-cols-2 h-fit mb-3 mt-9">
                         <>
                             <p>Subtotal:</p>
-                            <p className="mb-3">{formatPrice(data.subtotal)}</p>
+                            <p className="mb-3">{data.subtotal}</p>
                         </>
                         <>
                             <p>Shipping:</p>
-                            <p className="mb-3">{formatPrice(data.shipping)}</p>
+                            <p className="mb-3">{data.shipping}</p>
                         </>
                         <>
                             <p>Tax:</p>
-                            <p className="mb-3">{formatPrice(data.tax)}</p>
+                            <p className="mb-3">{data.tax}</p>
                         </>
                         <>
                             <p>Total:</p>
-                            <p className="mb-3">{formatPrice(data.subtotal + data.shipping + data.tax)}</p>
+                            <p className="mb-3">{data.subtotal + data.shipping + data.tax}</p>
                         </>
                         </div>
                                 </>
                             )
                         })}
-                        <button className="btn col-start-3" onClick={() => navigate('/orders')}>Back to order list</button>
+                        <button className="btn col-start-3" onClick={() => navigate('/dashboard/orders')}>Back to order list</button>
                     </div>
                 </div>
-            </div>
-        )   
+          </Card>
+        </div>
+        );  
     }
-}
-
-export default OrderDetail
+  }
