@@ -19,7 +19,6 @@ router.post('/add-product',
     body('title').trim().isLength({min: 5}),
     body('price').trim().isLength({min: 3}),
     body('price').trim().toInt(),
-    isAuth,
     //adminAuth
 ]
 , productsController.postAddProduct) //Create Product
