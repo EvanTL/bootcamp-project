@@ -59,6 +59,17 @@ export function ProductCreateScreen() {
       }
       
       await createSingleProduct(formData)
+      setForm({
+        name: "",
+        price: "",
+        stock: "",
+        category: "",
+        shipping: false,
+        featured: false,
+        colors: [],
+        description: "",
+        image: null
+      })
       alert(update_data.message)
       navigate('/dashboard/products')
     }

@@ -62,12 +62,12 @@ const filter_reducer = (state, action) => {
     }
     if (sort === 'name-asc') {
       tempProducts = filtered_products.sort((a, b) => {
-        return a.name.localeCompare(b.name)
+        return a.title.localeCompare(b.title)
       })
     }
     if (sort === 'name-desc') {
       tempProducts = filtered_products.sort((a, b) => {
-        return b.name.localeCompare(a.name)
+        return b.title.localeCompare(a.title)
       })
     }
     return { ...state, filtered_products: tempProducts }
