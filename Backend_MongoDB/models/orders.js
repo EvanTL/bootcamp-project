@@ -19,6 +19,8 @@ const OrderSchema = new Schema( {
                 type: Schema.Types.ObjectId,
                 ref: "Product"
             },
+            name: {type: String},
+            price: {type: Number},
             amount: {
                 type: Number
             },
@@ -28,6 +30,11 @@ const OrderSchema = new Schema( {
             image: {type: String}
         }
     ],
+    totalpay: {
+        subtotal: {type: Number},
+        shipping: {type: Number},
+        tax: {type: Number},
+    },
     delivery: {
         address: {type: String},
         city: {type: String},

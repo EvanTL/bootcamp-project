@@ -9,12 +9,14 @@ exports.createOrder = (req, res, next) => {
     const user = JSON.parse(req.body.user)
     const items = JSON.parse(req.body.items)
     const delivery = JSON.parse(req.body.delivery)
+    const totalpay = JSON.parse(req.body.totalpay)
 
     const order = new Order({
         userId: userId,
         items: items,
         userData: user,
-        delivery: delivery
+        delivery: delivery,
+        totalpay: totalpay
     })
     
     order.save()
@@ -33,8 +35,29 @@ exports.getOrdersbyUser = (req, res, next) => {
     const userId = req.userId
 
     Order.find({userId: userId})
+    .select('items _id')
     .then(orders => {
         res.json(orders)
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
+}
+
+exports.getSingleOrder = (req, res, next) => {
+    const orderId = req.params.orderId
+    const userId = req.userId
+
+    Order.findById(orderId)
+    .then(order => {
+        if (userId !== order.userId.toString()) {
+            const error = new Error('Access Forbidden')
+            error.statusCode = 403
+            throw error
+        }
+        res.json(order)
     }).catch(err => {
         if(!err.statusCode){
             err.statusCode = 500

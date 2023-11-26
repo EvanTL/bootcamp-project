@@ -73,7 +73,7 @@ exports.login = (req, res, next) => {
                 userId: loadedUser._id.toString()
             },
             'secretstatuscode',
-            {expiresIn: '1h'}
+            {expiresIn: '12h'}
         )
         res.status(200).json({
             token: token,
