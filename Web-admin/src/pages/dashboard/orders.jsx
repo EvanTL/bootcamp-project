@@ -66,9 +66,7 @@ import { useNavigate } from 'react-router-dom';
         selector: row => row.userData,
         sortable: true,
         cell : (record) => {
-          console.log(record)
           const {userData} = record
-          userData.map(data => {
             return(
               <div className="flex items-center gap-3">
                 <div className="flex flex-col">
@@ -77,19 +75,18 @@ import { useNavigate } from 'react-router-dom';
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {data.name}
+                    {userData[0].name}
                   </Typography>
                   <Typography
                     variant="small"
                     color="blue-gray"
                     className="font-normal opacity-70"
                   >
-                    {data.email}
+                    {userData[0].email}
                   </Typography>
                 </div>
               </div>
             )
-          })
         } 
       },
       {
