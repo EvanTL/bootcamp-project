@@ -16,10 +16,18 @@ export const OrderProvider = ({ children }) => {
 
   const [orderState, dispatch] = useReducer(reducer, initialState)
 
-  const createOrder = (cart, token) => {
+  const createOrder = (cart, token, deliveryData, user, selectedmethod) => {
     dispatch({type: 'CREATE_ORDER_REQUEST'})
 
-      axios.post(`http://localhost:8000/shop/create-order`, {items: JSON.stringify(cart)}, {
+      axios.post(`http://localhost:8000/shop/create-order`, {
+        user: JSON.stringify({
+          name: user.name,
+          email: user.email,
+          payment: selectedmethod
+        }),
+        items: JSON.stringify(cart),
+        delivery: JSON.stringify(deliveryData)
+      }, {
         headers: {
           'Authorization': 'Bearer ' + token,
           "Content-Type": "application/x-www-form-urlencoded"

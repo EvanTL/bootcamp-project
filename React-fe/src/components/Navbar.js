@@ -37,7 +37,7 @@ const Nav = () => {
           {userState.token !== "" && (
             <>
               <li id='checkout'>
-                <Link to='/checkout'>checkout</Link>
+                <Link to='/orders'>Orders</Link>
               </li>
               <li id='logout'>
               <Link to='/logout'>Logout</Link>

@@ -4,20 +4,24 @@ import { useCartContext } from '../context/cart_context'
 import { useOrderContext } from "../context/order_context";
 import { formatPrice } from "../utils/helpers";
 import Loading from "./Loading";
+import { useNavigate } from "react-router-dom";
 
 const ReviewOrder = () => {
 
-    const data = JSON.parse(localStorage.getItem('delivery'))
+    const deliveryData = JSON.parse(localStorage.getItem('delivery'))
     const cart = JSON.parse(localStorage.getItem('cart'))
     const { user, token } = JSON.parse(localStorage.getItem('userInfo'))
     const selectedmethod = localStorage.getItem('payment')
     const { total_amount, shipping_fee } = useCartContext()
     const { createOrder, orderState } = useOrderContext()
     const tax = (total_amount + shipping_fee) * 0.11
-    console.log(cart)
+    const navigate = useNavigate()
 
     async function handleOrder() {
-        await createOrder(cart, token)
+        await createOrder(cart, token, deliveryData, user, selectedmethod)
+        alert(orderState.data)
+        navigate('/orders')
+        
     }
 
     if (orderState.loading) {
@@ -40,7 +44,7 @@ const ReviewOrder = () => {
                     <FaTruck className="w-[3rem] h-[3rem] mx-auto"/>
                     <div>
                         <h4 className="font-semibold">Shipping info</h4>
-                        <p className="font-semibold">Shipping: {data.country}</p>
+                        <p className="font-semibold">Shipping: {deliveryData.country}</p>
                         <p className="font-semibold">Payment method: {selectedmethod}</p>
                     </div>
                 </div>
@@ -48,8 +52,8 @@ const ReviewOrder = () => {
                     <FaLocationArrow className="w-[3rem] h-[3rem] mx-auto"/>
                     <div>
                         <h4 className="font-semibold">Delivery Address</h4>
-                        <p className="font-semibold">{data.address}, {data.city}</p>
-                        <p className="font-semibold">Postal code: {data.postal_code}</p>
+                        <p className="font-semibold">{deliveryData.address}, {deliveryData.city}</p>
+                        <p className="font-semibold">Postal code: {deliveryData.postal_code}</p>
                     </div>
                 </div>
                 <div className="col-span-2">

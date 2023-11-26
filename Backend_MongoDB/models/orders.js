@@ -6,6 +6,13 @@ const OrderSchema = new Schema( {
         type: Schema.Types.ObjectId,
         ref: "Users"
     },
+    userData: {
+        name: {
+            type: String
+        },
+        email: {type: String},
+        payment: {type: String}
+    },
     items: [
         {
             productId: {
@@ -17,7 +24,8 @@ const OrderSchema = new Schema( {
             },
             color: {
                 type: String
-            }
+            },
+            image: {type: String}
         }
     ],
     delivery: {

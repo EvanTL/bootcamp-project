@@ -6,19 +6,35 @@ const { default: axios } = require('axios')
 
 exports.createOrder = (req, res, next) => {
     const userId = req.userId
+    const user = JSON.parse(req.body.user)
     const items = JSON.parse(req.body.items)
-
-    console.log(userId)
-    console.log(items)
+    const delivery = JSON.parse(req.body.delivery)
 
     const order = new Order({
         userId: userId,
-        items: items
+        items: items,
+        userData: user,
+        delivery: delivery
     })
     
     order.save()
     .then((result) => {
-        res.status(201).json(result)
+        console.log(result)
+        res.status(201).json("Order Successfully created")
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
+}
+
+exports.getOrdersbyUser = (req, res, next) => {
+    const userId = req.userId
+
+    Order.find({userId: userId})
+    .then(orders => {
+        res.json(orders)
     }).catch(err => {
         if(!err.statusCode){
             err.statusCode = 500
