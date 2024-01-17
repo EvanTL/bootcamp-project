@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { FaLocationArrow, FaTruck, FaUserAlt } from "react-icons/fa";
-import { useCartContext } from '../context/cart_context'
 import { useOrderContext } from "../context/order_context";
 import { formatPrice } from "../utils/helpers";
 import Loading from "./Loading";
@@ -88,9 +87,9 @@ const OrderDetail = () => {
                     <div className="w-[250px] mx-auto">
                         {totalpay && totalpay.map(data => {
                             return(
-                                <>
-                                                        <div className="bg-slate-200 p-2 grid grid-cols-2 h-fit mb-3 mt-9">
-                        <>
+                            <>
+                                <div className="bg-slate-200 p-2 grid grid-cols-2 h-fit mb-3 mt-9">
+                            <>
                             <p>Subtotal:</p>
                             <p className="mb-3">{formatPrice(data.subtotal)}</p>
                         </>
