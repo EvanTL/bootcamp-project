@@ -1,7 +1,7 @@
 {
   "name": "cektokosebelah",
   "version": "0.3.2",
-  "homepage": "https://cektokosebelah.refillaja.id/",
+  "homepage": "https://evant-portfolio.com/",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^1.12.0",
