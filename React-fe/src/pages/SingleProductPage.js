@@ -31,7 +31,7 @@ const SingleProductPage = () => {
 
   useEffect(() => {
     fetchSingleProduct(productId);
-    fetchReviews(`${reviews_url}?product_id=${productId}`);
+    // fetchReviews(`${reviews_url}?product_id=${productId}`);
     // eslint-disable-next-line
   }, [productId]);
   
