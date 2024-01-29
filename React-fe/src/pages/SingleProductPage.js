@@ -86,7 +86,7 @@ const SingleProductPage = () => {
           {stock > 0 && <AddToCart product={single_product}/>}
         </section>
       </div>
-      <ProductReviews reviews={reviews} loading={reviews_loading} error={reviews_error}/>
+      {/* <ProductReviews reviews={reviews} loading={reviews_loading} error={reviews_error}/> */}
     </div>
     </div>
   );
