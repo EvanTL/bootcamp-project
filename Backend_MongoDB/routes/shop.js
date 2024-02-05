@@ -17,6 +17,9 @@ router.get('/orders', isAuth, shopController.getOrdersbyUser)
 router.get('/order/:orderId', isAuth, shopController.getSingleOrder)
 router.post('/create-order', isAuth, shopController.createOrder)
 
+//Routing: Reviews
+
+
 //Final Project routing: Carts(Unused for the time being)
 // router.post('/cart/add-product', isAuth, shopController.postCart)
 // router.get('/cart', shopController.getCart)
