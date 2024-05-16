@@ -71,7 +71,10 @@ export const services_id = [
   },
 ]
 
-export const products_url = 'http://localhost:8000/shop/products'
+export const baseUrl = 'https://bootcamp-project-five.vercel.app/api'
+export const base = 'https://bootcamp-project-five.vercel.app'
+
+export const products_url = `${baseUrl}/shop/products`
 //'https://course-api.com/react-store-products'
 
 export const single_product_url = 'http://localhost:8000/shop/product/'

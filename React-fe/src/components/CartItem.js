@@ -3,6 +3,7 @@ import { formatPrice } from '../utils/helpers'
 import AmountButtons from './AmountButtons'
 import { FaTrash } from 'react-icons/fa'
 import { useCartContext } from '../context/cart_context'
+import { base } from '../utils/constants'
 const CartItem = ({ id, image, name, color, price, amount }) => {
   const { removeItem, toggleAmount } = useCartContext()
   const increase = () => {
@@ -15,7 +16,7 @@ const CartItem = ({ id, image, name, color, price, amount }) => {
     <>
     <div className='grid md:grid-cols-[300px_1fr_1fr_1fr_50px] mx-4 py-2' key={id}>
     <div className='col-start-1 grid grid-cols-2 mb-3 md:mb-0'>
-      <img src={`http://localhost:8000/${image}`} alt='' className='h-24'/>
+      <img src={`${base}/${image}`} alt='' className='h-24'/>
       <div className='self-center h-fit'>
         <h5>{name}</h5>
         <p>Color: <div style={{background: color}} className='w-[0.7rem] h-[0.7rem] inline-block rounded-full'/></p>

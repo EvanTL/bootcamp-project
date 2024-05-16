@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import './listview.css'
 import styled from 'styled-components'
 import Stars from './Stars'
+import { base } from '../utils/constants'
 
 const ListView = ({ products }) => {
   return (
@@ -13,7 +14,7 @@ const ListView = ({ products }) => {
           <>
           <div key={content._id} className='grid grid-cols-7 gap-4 mt-4 mb-4 p-3 rounded-lg bg-[#6499E9]'>
           <Link to={`/products/${content._id}`} className='link float-left col-span-2 transition-[var(--transition)]'>
-            <img src={`http://localhost:8000/${content.imageUrl}`} className='rounded-lg hover:opacity-50 transition-[var(--transition)]' />
+            <img src={`${base}/${content.imageUrl}`} className='rounded-lg hover:opacity-50 transition-[var(--transition)]' />
           </Link>
             <section className='description float-left col-span-5'>
               <h3 className='font-semibold'>{content.title}</h3>

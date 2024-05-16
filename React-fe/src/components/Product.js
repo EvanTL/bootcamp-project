@@ -3,12 +3,13 @@ import styled from 'styled-components'
 import { formatPrice } from '../utils/helpers'
 import { Link } from 'react-router-dom'
 import Stars from './Stars'
+import { base } from '../utils/constants'
 const Product = ({ imageUrl, title, price, _id, stars, company }) => {
   return (
     <Wrapper>
       <Link to={`/products/${_id}`} className='link'>
       <div className='container content-center bg-slate-100'>
-        <img src={`http://localhost:8000/${imageUrl}`} alt={title} />
+        <img src={`${base}/${imageUrl}`} alt={title} />
       <footer>
         <h5>{title}</h5>
         <div className='stars'>

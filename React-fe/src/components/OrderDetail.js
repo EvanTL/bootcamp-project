@@ -4,6 +4,7 @@ import { useOrderContext } from "../context/order_context";
 import { formatPrice } from "../utils/helpers";
 import Loading from "./Loading";
 import { useNavigate, useParams } from "react-router-dom";
+import { base } from "../utils/constants";
 
 const OrderDetail = () => {
     const { getSingleOrder, orderState } = useOrderContext()
@@ -72,7 +73,7 @@ const OrderDetail = () => {
                             {items && items.map(item => {
                             return(
                             <>
-                                <img src={`http://localhost:8000/${item.image}`} className="col-start-1 rounded-lg w-[131px] h-fit mx-auto py-1"/>
+                                <img src={`${base}/${item.image}`} className="col-start-1 rounded-lg w-[131px] h-fit mx-auto py-1"/>
                                 <div className="col-start-2 border-l-2 border-black pl-5">
                                     <p>{item.name}</p>
                                     <p>Color: <div style={{background: item.color}} className='w-[0.7rem] h-[0.7rem] inline-block rounded-full'/></p>

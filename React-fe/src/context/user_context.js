@@ -1,6 +1,7 @@
 import React, { useContext, useReducer } from 'react'
 import reducer from '../reducers/user_reducer'
 import axios from "axios";
+import { baseUrl } from '../utils/constants';
 
 
 const UserContext = React.createContext()
@@ -32,7 +33,7 @@ export const UserProvider = ({ children }) => {
 
       const userData = {email: email,password: password};
 
-      axios.post(`http://localhost:8000/auth/login`,userData).then(resp => {
+      axios.post(`${baseUrl}/auth/login`,userData).then(resp => {
 
           dispatch({ type: 'USER_LOGIN_SUCCESS', payload: resp.data });
       
@@ -61,7 +62,7 @@ export const UserProvider = ({ children }) => {
 
       const userData = {name:name, email: email,password: password};
 
-      axios.post(`http://localhost:8000/auth/signup`,userData).then(resp => {
+      axios.post(`${baseUrl}/auth/signup`,userData).then(resp => {
 
           dispatch({ type: 'USER_REGISTER_SUCCESS', payload: resp.data});
       

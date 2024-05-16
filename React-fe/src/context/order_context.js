@@ -1,6 +1,7 @@
 import React, { useContext, useReducer } from 'react'
 import reducer from '../reducers/order_reducer'
 import axios from "axios";
+import { baseUrl } from '../utils/constants';
 
 
 const OrderContext = React.createContext()
@@ -21,7 +22,7 @@ export const OrderProvider = ({ children }) => {
   const createOrder = (cart, token, deliveryData, user, selectedmethod, totalpay) => {
     dispatch({type: 'CREATE_ORDER_REQUEST'})
 
-      axios.post(`http://localhost:8000/shop/create-order`, {
+      axios.post(`${baseUrl}/shop/create-order`, {
         user: JSON.stringify([{
           name: user.name,
           email: user.email,
@@ -56,7 +57,7 @@ export const OrderProvider = ({ children }) => {
   const getOrders = (token) => {
     dispatch({type: "GET_ORDERS_REQUEST"})
 
-    axios.get(`http://localhost:8000/shop/orders`, {
+    axios.get(`${baseUrl}/shop/orders`, {
         headers: {
           'Authorization': 'Bearer ' + token,
         }
@@ -81,7 +82,7 @@ export const OrderProvider = ({ children }) => {
   const getSingleOrder = (orderId, token) => {
     dispatch({type: "GET_SINGLE_ORDER_REQUEST"})
 
-    axios.get(`http://localhost:8000/shop/order/${orderId}`, {
+    axios.get(`${baseUrl}/shop/order/${orderId}`, {
       headers: {
         'Authorization': 'Bearer ' + token,
       }

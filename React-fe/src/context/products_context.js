@@ -1,7 +1,7 @@
 import axios from 'axios'
 import React, { useContext, useEffect, useReducer } from 'react'
 import reducer from '../reducers/products_reducer'
-import { products_url as url } from '../utils/constants'
+import { baseUrl, products_url as url } from '../utils/constants'
 import { product_reviews as reviews } from '../utils/constants'
 import {
   SIDEBAR_OPEN,
@@ -68,7 +68,7 @@ export const ProductsProvider = ({ children }) => {
   const fetchSingleProduct = async (productId) => {
     dispatch({ type: GET_SINGLE_PRODUCT_BEGIN })
     try {
-      const response = await axios.get(`http://localhost:8000/shop/product/${productId}`)
+      const response = await axios.get(`${baseUrl}/shop/product/${productId}`)
       console.log(response)
       const singleProduct = response.data
       dispatch({ type: GET_SINGLE_PRODUCT_SUCCESS, payload: singleProduct })

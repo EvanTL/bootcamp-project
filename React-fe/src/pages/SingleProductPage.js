@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useProductsContext } from '../context/products_context';
-import { single_product_url as url } from '../utils/constants';
+import { base, single_product_url as url } from '../utils/constants';
 import { product_reviews as reviews_url } from '../utils/constants'
 import { formatPrice } from '../utils/helpers';
 import {
@@ -59,7 +59,7 @@ const SingleProductPage = () => {
     _id: sku,
     company,
     imageUrl,
-    image =  `http://localhost:8000/${imageUrl}`,
+    image =  `${base}/${imageUrl}`,
   } = single_product;
   return (
     <div className='mt-20'>
@@ -86,7 +86,7 @@ const SingleProductPage = () => {
           {stock > 0 && <AddToCart product={single_product}/>}
         </section>
       </div>
-      {/* <ProductReviews reviews={reviews} loading={reviews_loading} error={reviews_error}/> */}
+      <ProductReviews reviews={reviews} loading={reviews_loading} error={reviews_error}/>
     </div>
     </div>
   );

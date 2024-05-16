@@ -5,6 +5,7 @@ import Loading from "./Loading";
 import { Link, useNavigate } from "react-router-dom";
 import React, { useEffect } from 'react';
 import PageHero from './PageHero';
+import { base } from '../utils/constants';
 
 const OrderList = () => {
     const { token } = JSON.parse(localStorage.getItem('userInfo'))
@@ -60,7 +61,7 @@ const OrderList = () => {
                         return(
                             <>
                             <div className='col-start-1 grid grid-cols-2 mb-3 md:mb-0'>
-                            <img src={`http://localhost:8000/${item.image}`} alt='' className='h-24'/>
+                            <img src={`${base}/${item.image}`} alt='' className='h-24'/>
                             <div className='self-center h-fit'>
                                 <h5>{item.name}</h5>
                                 <p>

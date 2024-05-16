@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FaLocationArrow, FaTruck, FaUserAlt } from "react-icons/fa";
 import { useCartContext } from '../context/cart_context'
 import { useOrderContext } from "../context/order_context";
 import { formatPrice } from "../utils/helpers";
 import Loading from "./Loading";
 import { useNavigate } from "react-router-dom";
+import { base } from "../utils/constants";
 
 const ReviewOrder = () => {
 
@@ -48,7 +49,7 @@ const ReviewOrder = () => {
                     <FaTruck className="w-[3rem] h-[3rem] mx-auto"/>
                     <div>
                         <h4 className="font-semibold">Shipping info</h4>
-                        <p className="font-semibold">Shipping: {deliveryData.country}</p>
+                        <p className="font-semibold">Shipping: {deliveryData[0].country}</p>
                         <p className="font-semibold">Payment method: {selectedmethod}</p>
                     </div>
                 </div>
@@ -56,8 +57,8 @@ const ReviewOrder = () => {
                     <FaLocationArrow className="w-[3rem] h-[3rem] mx-auto"/>
                     <div>
                         <h4 className="font-semibold">Delivery Address</h4>
-                        <p className="font-semibold">{deliveryData.address}, {deliveryData.city}</p>
-                        <p className="font-semibold">Postal code: {deliveryData.postal_code}</p>
+                        <p className="font-semibold">{deliveryData[0].address}, {deliveryData[0].city}</p>
+                        <p className="font-semibold">Postal code: {deliveryData[0].postal_code}</p>
                     </div>
                 </div>
                 <div className="col-span-2">
@@ -68,7 +69,7 @@ const ReviewOrder = () => {
                         {cart && cart.map(item => {
                         return(
                         <>
-                            <img src={`http://localhost:8000/${item.image}`} className="col-start-1 rounded-lg w-[131px] h-fit mx-auto py-1"/>
+                            <img src={`${base}/${item.image}`} className="col-start-1 rounded-lg w-[131px] h-fit mx-auto py-1"/>
                             <div className="col-start-2 border-l-2 border-black pl-5">
                                 <p>{item.name}</p>
                                 <p>Color: <div style={{background: item.color}} className='w-[0.7rem] h-[0.7rem] inline-block rounded-full'/></p>
