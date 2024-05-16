@@ -1,14 +1,17 @@
 import React, { useState } from 'react'
+import { BsStarFill, BsStar } from 'react-icons/bs'
 import {
     Loading,
     Error,
   } from '../components';
+import './stars.css'
 
 const ProductReviews = ({reviews, loading, error}) => {
 
     reviews.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
 
     const [stars, setStars] = useState(0)
+    const rating = [1, 2, 3, 4, 5]
     const updateStars = (e) => setStars(e.target.value)
 
     if (loading) {
@@ -25,14 +28,24 @@ const ProductReviews = ({reviews, loading, error}) => {
                 <p>Write a review</p>
                 <div className='bg-white rounded-lg p-2'>
                     <h5 className='font-semibold'>Rating:</h5>
-                    <select value={stars} onChange={updateStars} className='bg-gray-200 w-full'>
-                        <option value={0}>Select...</option>
-                        <option value={1}>1 Star</option>
-                        <option value={2}>2 Stars</option>
-                        <option value={3}>3 Stars</option>
-                        <option value={4}>4 Stars</option>
-                        <option value={5}>5 Stars</option>
-                    </select>
+                    <div className='flex flex-row'>
+                        {rating.map((star, index) => {
+                            return (
+                                <button
+                                    type='button'
+                                    onClick={() => {
+                                        stars === star + 1 ? setStars(0) : updateStars({target: {value: star + 1}})
+                                    }}>
+                                    <span key={index} className='star pt-[0.25rem]'>
+                                        {stars > star ? (
+                                            <BsStarFill/>
+                                        ): (<BsStar />)
+                                        }
+                                    </span>
+                                </button>
+                            );
+                        })}
+                    </div>
                     <h5 className='font-semibold mt-3'>Comment:</h5>
                     <textarea className='w-full p-2 border-2 border-black rounded-lg resize-none'/>
                     <button className='btn'>Submit Review</button>
