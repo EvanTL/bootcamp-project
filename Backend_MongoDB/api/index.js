@@ -2,15 +2,15 @@ const express = require('express') //Standard of node.js used to import a file
 const app = express()
 const router = express.Router() //This is for router-based middleware
 const bodyParser = require('body-parser') //To call body parser
-const adminRouter = require('./routes/admin')
-const shopRouter = require('./routes/shop')
+const adminRouter = require('../routes/admin')
+const shopRouter = require('../routes/shop')
 const mongoose = require('mongoose')
 const path = require('path')
-const Users = require('./models/users')
+const Users = require('../models/users')
 const multer = require('multer')
 const cors = require('cors')
 const {v4: uuidv4} = require('uuid')
-const authRoutes = require('./routes/auth')
+const authRoutes = require('../routes/auth')
 const cookieParser = require('cookie-parser')
 
 console.log("start express server")
