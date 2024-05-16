@@ -28,7 +28,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.urlencoded({extended: false})) //To read all encoded URL(random gibberish)
 app.use(bodyParser.json())
 app.use(cookieParser())
-app.use('/auth', authRoutes)
+app.use('/api/auth', authRoutes)
 
 // app.use((req, res, next) => {
 //     console.log("Time: ", Date.now())
@@ -41,7 +41,7 @@ app.use('/auth', authRoutes)
 // })
 
 //Middleware if an URL directs to binary file
-app.use('/images', express.static(path.join(__dirname, 'images')))
+app.use('api/images', express.static(path.join(__dirname, 'images')))
 
 const fileStorage = multer.diskStorage({
     destination : function(req, file, cb){
@@ -78,7 +78,7 @@ app.use(
 //This instance, we can only support uploading one item at a time, with image being the field of the file you use on frontend
 
 
-app.use("/", router)
+app.use("/api", router)
 router.use('/admin', adminRouter)
 router.use('/shop', shopRouter)
 
