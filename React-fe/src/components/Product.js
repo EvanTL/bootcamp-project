@@ -50,20 +50,20 @@ const Wrapper = styled.article`
   .container:hover img {
     opacity: 0.5;
   }
-  .stars{
-    transition: var(--transition)
-  }
-  .container:hover .stars{
-    display: none;
-    transition: var(--transition);
-  }
+  // .stars{
+  //   transition: var(--transition)
+  // }
+  // .container:hover .stars{
+  //   display: none;
+  //   transition: var(--transition);
+  // }
   .company{
     display: none;
   }
-  .container:hover .company{
-    display: block
-    transition: var(--transition);
-  }
+  // .container:hover .company{
+  //   display: block
+  //   transition: var(--transition);
+  // }
   footer {
     margin-top: 0.5rem;
     padding: 3px;
