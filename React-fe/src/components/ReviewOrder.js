@@ -25,8 +25,7 @@ const ReviewOrder = () => {
             tax: tax
         }]
         await createOrder(cart, token, deliveryData, user, selectedmethod, totalpay)
-        alert(orderState.data)
-        navigate('/orders')
+        {orderState.loading === false && navigate('/orders')}
     }
 
     if (orderState.loading) {

@@ -38,7 +38,8 @@ export const OrderProvider = ({ children }) => {
         }
       }).then(resp => {
 
-          dispatch({ type: 'CREATE_ORDER_SUCCESS', payload: resp });
+          dispatch({ type: 'CREATE_ORDER_SUCCESS'});
+          alert(resp.data)
       
         }).catch(err => {
 

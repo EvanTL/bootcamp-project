@@ -12,7 +12,7 @@ const order_reducer = (state, action) => {
         remove.forEach(k => {
             localStorage.removeItem(k)
         })
-        return {...state, loading: false, data: action.payload}
+        return {...state, loading: false}
     }
 
     if (action.type === 'CREATE_ORDER_FAIL') {
