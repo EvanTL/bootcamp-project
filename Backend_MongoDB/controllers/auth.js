@@ -43,6 +43,13 @@ exports.signup = (req, res, next) => {
 }
 
 exports.login = (req, res, next) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        const error = new Error('Signup Validation Failed')
+        error.statusCode = 530
+        error.message = errors.array()[0].msg
+        throw error
+    }
 
     const {email, password} = req.body
 
