@@ -16,7 +16,7 @@ const cookieParser = require('cookie-parser')
 console.log("start express server")
 
 //Installing CORS. CORS has to be called on top 
-app.use(cors({ credentials: true, origin: ["http://localhost:3000", "http://localhost:5173", "https://evant-portfolio.com"] }))
+app.use(cors({ credentials: true, origin: ["http://localhost:3000", "http://localhost:5173", "https://evant-portfolio.com", "https://cektokov1-react.vercel.app/"] }))
 
 app.use((req, res, next) => {
     res.setHeader('Acceess-Control-Allow-Origin', '*') //setHeader depends on per browser basis: some browsers can access without header
