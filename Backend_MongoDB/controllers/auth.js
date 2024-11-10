@@ -112,7 +112,6 @@ exports.changePassword = (req, res, next) => {
 
     const {oldPassword, newPassword} = req.body
     const userId = req.userId
-    let loadedUser
 
     Users.findById(userId)
     .then(user => {
@@ -122,7 +121,6 @@ exports.changePassword = (req, res, next) => {
             throw error
         }
 
-        loadedUser = user
         return bcrypt.compare(oldPassword, user.password)
         
     })
