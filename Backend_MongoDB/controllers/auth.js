@@ -100,3 +100,53 @@ exports.login = (req, res, next) => {
         next(err)
     })
 }
+
+exports.changePassword = (req, res, next) => {
+    const errors = validationResult(req)
+    if(!errors.isEmpty()){
+        const error = new Error('Signup Validation Failed')
+        error.statusCode = 530
+        error.message = errors.array()[0].msg
+        throw error
+    }
+
+    const {oldPassword, newPassword} = req.body
+    const userId = req.userId
+    let loadedUser
+
+    Users.findById(userId)
+    .then(user => {
+        if(!user){
+            const error = new Error('User not found')
+            error.statusCode = 531
+            throw error
+        }
+
+        loadedUser = user
+        return bcrypt.compare(oldPassword, user.password)
+        
+    })
+    .then(isEqual => {
+        if(!isEqual){
+            const error = new Error('Wrong password')
+            error.statusCode = 532
+            throw error
+        }
+
+        return bcrypt.hash(newPassword, 10)
+    })
+    .then(hashedPass => {
+        return Users.updateOne({_id: userId}, {$set: {password: hashedPass}})
+    })
+    .then(() => {
+        res.status(200).json({
+            status: 200,
+            message: "Password changed"
+        })
+    }).catch(err => {
+        if(!err.statusCode){
+            err.statusCode = 500
+        }
+        next(err)
+    })
+}
